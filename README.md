@@ -86,4 +86,4 @@ python -m main
 
 ## 许可证
 
-本项目采用开源许可证，具体详情请查看 LICENSE 文件。
+本项目采用 MIT 开源许可证，具体详情请查看 LICENSE 文件。
