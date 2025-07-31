@@ -27,6 +27,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./qiniu.difypkg
         asset_name: qiniu.difypkg
+        asset_path: ./qiniu.difypkg
         asset_content_type: application/octet-stream
