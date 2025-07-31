@@ -24,13 +24,17 @@
 
 ### 方式二：插件市场安装
 
-插件市场版本更新没有上述两种版本更新即使
+> 插件市场版本更新没有上述两种版本更新及时
 
 1. 访问 [Dify 插件市场](https://marketplace.dify.ai)
 2. 搜索"七牛云"或"Qiniu"
 3. 点击安装并按照提示配置
 
 ## 配置说明
+
+插件安装后，在[模型供应商设置](https://cloud.dify.ai/plugins)页面对模型进行配置
+
+![插件预览](_assets/plugin_config_preview.png)
 
 ### 必需配置
 
