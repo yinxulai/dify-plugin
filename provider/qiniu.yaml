@@ -1,0 +1,51 @@
+background: '#c0cdff'
+configurate_methods:
+- predefined-model
+description:
+  en_US: Models provided by Qiniu, such as deepseek-r1、deepseek-v3.
+  zh_Hans: 七牛云提供的模型，例如 deepseek-r1、deepseek-v3 等
+extra:
+  python:
+    model_sources:
+    - models/llm/llm.py
+    provider_source: provider/qiniu.py
+help:
+  title:
+    en_US: Get your API Key from Qiniu
+    zh_Hans: 从七牛云获取 API Key
+  url:
+    en_US: https://portal.qiniu.com/ai-inference/api-key
+icon_large:
+  en_US: icon_l_en.svg
+icon_small:
+  en_US: icon_s_en.svg
+label:
+  en_US: Qiniu
+  zh_Hans: 七牛云
+models:
+  llm:
+    position: models/llm/_position.yaml
+    predefined:
+    - models/llm/*.yaml
+provider: qiniu
+provider_credential_schema:
+  credential_form_schemas:
+  - label:
+      en_US: API Key
+    placeholder:
+      en_US: Enter your API Key
+      zh_Hans: 在此输入您的 API Key
+    required: true
+    type: secret-input
+    variable: api_key
+  - label:
+      en_US: Custom API endpoint URL
+      zh_Hans: 自定义 API endpoint 地址
+    placeholder:
+      en_US: Base URL, e.g. https://openai.qiniu.com/v1 or https://openai.qiniu.com
+      zh_Hans: Base URL, e.g. https://api.qiniu.com/v1 or https://api.qiniu.com
+    required: false
+    type: text-input
+    variable: endpoint_url
+supported_model_types:
+- llm

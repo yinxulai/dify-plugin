@@ -1,0 +1,13 @@
+model: deepseek-r1
+label:
+  zh_Hans: deepseek-r1
+  en_US: deepseek-r1
+model_type: llm
+features:
+  - agent-thought
+  - tool-call
+  - multi-tool-call
+  - stream-tool-call
+model_properties:
+  mode: chat
+  context_size: 131072
