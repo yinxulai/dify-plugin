@@ -2,7 +2,7 @@
 
 七牛云官方的 Dify 插件，为 Dify 平台提供七牛云 AI 模型服务支持。
 
-![七牛云 AI](assets/qiniu_ai.png)
+![七牛云 AI](_assets/qiniu_ai.png)
 
 ## 功能特性
 
