@@ -44,7 +44,6 @@
 
 - **Custom API endpoint URL**：自定义 API 接口地址
   - 默认：`https://openai.qiniu.com/v1`
-  - 格式示例：`https://api.qiniu.com/v1` 或 `https://api.qiniu.com`
 
 ## 开发指南
 
