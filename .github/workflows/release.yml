@@ -1,0 +1,32 @@
+name: Build and Release Plugin
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Download Dify Plugin CLI
+      run: |
+        curl -L -o dify-plugin-linux-amd64 https://github.com/langgenius/dify-plugin-daemon/releases/download/0.2.0/dify-plugin-linux-amd64
+        chmod +x dify-plugin-linux-amd64
+        
+    - name: Package plugin
+      run: |
+        ./dify-plugin-linux-amd64 plugin package -o qiniu.difypkg .
+        
+    - name: Upload package to release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./qiniu.difypkg
+        asset_name: qiniu.difypkg
+        asset_content_type: application/octet-stream
