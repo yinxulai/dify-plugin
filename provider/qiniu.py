@@ -6,16 +6,27 @@ from dify_plugin import ModelProvider
 logger = logging.getLogger(__name__)
 
 
-class DeepSeekProvider(ModelProvider):
+class QiniuProvider(ModelProvider):
+    """
+    七牛云模型提供商实现类
+    
+    提供七牛云 AI 模型的接入能力，支持多种大语言模型
+    """
+
     def validate_provider_credentials(self, credentials: dict) -> None:
         """
-        Validate provider credentials
-        if validate failed, raise exception
+        验证供应商认证信息
+        如果验证失败，会抛出异常
 
-        :param credentials: provider credentials, credentials form defined in `provider_credential_schema`.
+        Args:
+            credentials: 供应商认证信息，格式由 `provider_credential_schema` 定义
+
+        Raises:
+            CredentialsValidateFailedError: 认证验证失败
         """
         try:
             model_instance = self.get_model_instance(ModelType.LLM)
+            # 使用 deepseek-v3 作为默认验证模型
             model_instance.validate_credentials(model="deepseek-v3", credentials=credentials)
         except CredentialsValidateFailedError as ex:
             raise ex
