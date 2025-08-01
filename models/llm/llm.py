@@ -7,6 +7,11 @@ from dify_plugin import OAICompatLargeLanguageModel
 
 
 class QiniuLargeLanguageModel(OAICompatLargeLanguageModel):
+    """
+    七牛云大语言模型实现类
+    基于 OpenAI 兼容接口实现，支持多种七牛云 AI 模型
+    """
+
     def _invoke(
         self,
         model: str,
@@ -18,15 +23,44 @@ class QiniuLargeLanguageModel(OAICompatLargeLanguageModel):
         stream: bool = True,
         user: Optional[str] = None,
     ) -> Union[LLMResult, Generator]:
+        """
+        调用七牛云大语言模型
+
+        Args:
+            model: 模型名称
+            credentials: 认证信息
+            prompt_messages: 提示消息列表
+            model_parameters: 模型参数
+            tools: 工具列表（可选）
+            stop: 停止词列表（可选）
+            stream: 是否流式返回
+            user: 用户标识（可选）
+
+        Returns:
+            LLMResult 或 Generator
+        """
         self._add_custom_parameters(credentials)
-        return super()._invoke(model, credentials, prompt_messages, model_parameters, tools, stop, stream)
+        return super()._invoke(model, credentials, prompt_messages, model_parameters, tools, stop, stream, user)
 
     def validate_credentials(self, model: str, credentials: dict) -> None:
+        """
+        验证认证信息
+
+        Args:
+            model: 模型名称
+            credentials: 认证信息
+        """
         self._add_custom_parameters(credentials)
         super().validate_credentials(model, credentials)
 
     @staticmethod
-    def _add_custom_parameters(credentials) -> None:
+    def _add_custom_parameters(credentials: dict) -> None:
+        """
+        添加七牛云特定的参数
+
+        Args:
+            credentials: 认证信息字典
+        """
         credentials["endpoint_url"] = str(URL(credentials.get("endpoint_url", "https://openai.qiniu.com/v1")))
         credentials["mode"] = LLMMode.CHAT.value
         credentials["function_calling_type"] = "tool_call"

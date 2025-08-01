@@ -26,13 +26,13 @@ resource:
   permission:
     model:
       llm: true
-      rerank: true
+      rerank: false
       enabled: true
       moderation: false
       speech2text: false
-      text_embedding: true
+      text_embedding: false
       tts: false
     tool:
-      enabled: true
+      enabled: false
 type: plugin
 version: 0.0.2
