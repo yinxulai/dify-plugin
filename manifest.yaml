@@ -3,11 +3,11 @@ author: qiniu
 icon: icon_s_en.svg
 created_at: '2025-07-31T00:13:50.29298939-04:00'
 description:
-  en_US: Models provided by Qiniu, such as deepseek-r1、deepseek-v3.
+  en_US: Models provided by Qiniu Cloud, such as deepseek-r1、deepseek-v3.
   zh_Hans: 七牛云提供的模型，例如 deepseek-r1、deepseek-v3 等
 
 label:
-  en_US: Qiniu
+  en_US: Qiniu Cloud
   zh_Hans: 七牛云
 meta:
   arch:
