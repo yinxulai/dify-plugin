@@ -14,12 +14,13 @@ jobs:
       
     - name: Download Dify Plugin CLI
       run: |
-        curl -L -o dify-plugin-linux-amd64 https://github.com/langgenius/dify-plugin-daemon/releases/download/0.2.0/dify-plugin-linux-amd64
-        chmod +x dify-plugin-linux-amd64
+        mkdir -p /tmp/dify-cli
+        curl -L -o /tmp/dify-cli/dify-plugin-linux-amd64 https://github.com/langgenius/dify-plugin-daemon/releases/download/0.2.0/dify-plugin-linux-amd64
+        chmod +x /tmp/dify-cli/dify-plugin-linux-amd64
         
     - name: Package plugin
       run: |
-        ./dify-plugin-linux-amd64 plugin package -o qiniu.difypkg .
+        /tmp/dify-cli/dify-plugin-linux-amd64 plugin package -o qiniu.difypkg .
         
     - name: Upload package to release
       uses: actions/upload-release-asset@v1
