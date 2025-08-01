@@ -41,10 +41,10 @@ provider_credential_schema:
     variable: endpoint_url
 help:
   title:
-    en_US: Get your API Key from Qiniu
+    en_US: Get your API Key from Qiniu Cloud
     zh_Hans: 从七牛云获取 API Key
   url:
-    en_US: https://portal.qiniu.com/ai-inference/api-key
+    en_US: https://developer.qiniu.com/aitokenapi/12884/how-to-get-api-key
 extra:
   python:
     model_sources:
