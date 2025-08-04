@@ -75,10 +75,7 @@
 
 ### 环境要求
 
-- Python 3.8+
-- dify_plugin >= 0.0.1b22
-- qiniu >= 7.12.0
-- requests >= 2.25.0
+- Python 3.11+
 
 ### 开发步骤
 
