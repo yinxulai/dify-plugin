@@ -1,42 +1,21 @@
 import logging
-from dify_plugin.entities.model import ModelType
-from dify_plugin.errors.model import CredentialsValidateFailedError
+from typing import Any
+
+from dify_plugin import ToolProvider
 from dify_plugin.errors.tool import ToolProviderCredentialValidationError
-from dify_plugin import ModelProvider, ToolProvider
 from qiniu import Auth, BucketManager
 
 logger = logging.getLogger(__name__)
 
 
-class QiniuProvider(ModelProvider, ToolProvider):
+class QiniuProvider(ToolProvider):
     """
-    七牛云提供商实现类
+    七牛云工具提供商实现类
     
-    提供七牛云 AI 模型的接入能力和云存储工具能力，支持多种大语言模型和文件上传功能
+    提供七牛云存储工具能力，支持文件上传功能
     """
 
-    def validate_provider_credentials(self, credentials: dict) -> None:
-        """
-        验证供应商认证信息（用于模型服务）
-        如果验证失败，会抛出异常
-
-        Args:
-            credentials: 供应商认证信息，格式由 `provider_credential_schema` 定义
-
-        Raises:
-            CredentialsValidateFailedError: 认证验证失败
-        """
-        try:
-            model_instance = self.get_model_instance(ModelType.LLM)
-            # 使用 deepseek-v3 作为默认验证模型
-            model_instance.validate_credentials(model="deepseek-v3", credentials=credentials)
-        except CredentialsValidateFailedError as ex:
-            raise ex
-        except Exception as ex:
-            logger.exception(f"{self.get_provider_schema().provider} credentials validate failed")
-            raise ex
-
-    def _validate_credentials(self, credentials: dict) -> None:
+    def _validate_credentials(self, credentials: dict[str, Any]) -> None:
         """
         验证工具认证信息（用于工具服务）
         验证七牛云 Access Key 和 Secret Key 的有效性

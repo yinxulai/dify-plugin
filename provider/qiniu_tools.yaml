@@ -1,0 +1,48 @@
+identity:
+  author: qiniu
+  name: qiniu
+  label:
+    en_US: Qiniu Cloud
+    zh_Hans: 七牛云
+  description:
+    en_US: Official Qiniu Cloud Storage plugin providing file upload services
+    zh_Hans: 七牛云官方存储插件，提供文件上传服务
+  icon: icon_s_en.svg
+  tags:
+    - utilities
+    - productivity
+credentials_for_provider:
+  qiniu_access_key:
+    type: secret-input
+    required: true
+    label:
+      en_US: Qiniu Access Key
+      zh_Hans: 七牛云 Access Key
+    placeholder:
+      en_US: Enter your Qiniu Access Key
+      zh_Hans: 在此输入您的七牛云 Access Key
+    help:
+      en_US: Get your Access Key from Qiniu Cloud Console
+      zh_Hans: 从七牛云控制台获取 Access Key
+    url: https://portal.qiniu.com/user/key
+  qiniu_secret_key:
+    type: secret-input
+    required: true
+    label:
+      en_US: Qiniu Secret Key
+      zh_Hans: 七牛云 Secret Key
+    placeholder:
+      en_US: Enter your Qiniu Secret Key
+      zh_Hans: 在此输入您的七牛云 Secret Key
+    help:
+      en_US: Get your Secret Key from Qiniu Cloud Console
+      zh_Hans: 从七牛云控制台获取 Secret Key
+    url: https://portal.qiniu.com/user/key
+tools:
+  - tools/list_buckets.yaml
+  - tools/file_upload.yaml
+  - tools/list_bucket_files.yaml
+  - tools/get_file_content.yaml
+extra:
+  python:
+    source: provider/qiniu_tools.py
