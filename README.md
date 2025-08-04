@@ -1,13 +1,28 @@
-# 七牛云 AI 模型插件
+# 七牛云 Dify 插件
 
-七牛云官方的 Dify 插件，为 Dify 平台提供七牛云 AI 模型服务支持。
+七牛云官方的 Dify 插件，为 Dify 平台提供全面的 AI 推理服务和云存储管理功能。
 
 ![插件预览](_assets/plugin_preview.png)
 
 ## 功能特性
 
-- [x] **AI 推理模型供应商**：支持多种先进的 AI 大语言模型
-- [ ] **对象存储**（开发中）
+### 🤖 AI 推理模型供应商
+
+支持多种先进的 AI 大语言模型：
+
+- **DeepSeek 系列**：deepseek-r1、deepseek-v3
+- **GLM 系列**：GLM-4.5、GLM-4.5-Air
+- **Kimi 系列**：Kimi-K2
+- **Qwen 系列**：Qwen-Turbo、Qwen3-32B
+
+### 📁 对象存储工具
+
+提供完整的七牛云存储管理功能：
+
+- **存储空间管理**：列出账户下的所有存储空间
+- **文件上传**：支持内容上传，可指定存储空间、文件前缀、自定义域名等
+- **文件列表**：支持按前缀过滤、分页查询存储空间中的文件
+- **文件内容获取**：通过签名链接获取私有文件内容
 
 ## 安装使用
 
@@ -22,7 +37,7 @@
 2. 在 Dify 中选择"本地插件"安装方式
 3. 上传插件包安装
 
-### 方式二：插件市场安装
+### 方式三：插件市场安装
 
 > 插件市场版本更新没有上述两种版本更新及时
 
@@ -32,25 +47,38 @@
 
 ## 配置说明
 
-插件安装后，在[模型供应商设置](https://cloud.dify.ai/plugins)页面对模型进行配置
+### AI 模型配置
+
+插件安装后，在[模型供应商设置](https://cloud.dify.ai/plugins)页面对 AI 模型进行配置：
 
 ![插件预览](_assets/plugin_config_preview.png)
 
-### 必需配置
+**必需配置**：
 
 - **API Key**：在 [七牛云 AI 推理控制台](https://portal.qiniu.com/ai-inference/api-key) 获取
 
-### 可选配置
+**可选配置**：
 
 - **Custom API endpoint URL**：自定义 API 接口地址
   - 默认：`https://openai.qiniu.com/v1`
+
+### 对象存储工具配置
+
+在工具配置页面设置七牛云存储凭证：
+
+**必需配置**：
+
+- **Access Key**：在 [七牛云密钥管理](https://portal.qiniu.com/user/key) 获取
+- **Secret Key**：在 [七牛云密钥管理](https://portal.qiniu.com/user/key) 获取
 
 ## 开发指南
 
 ### 环境要求
 
-- Python 3.12+
-- dify_plugin >= 0.3.0, < 0.4.0
+- Python 3.8+
+- dify_plugin >= 0.0.1b22
+- qiniu >= 7.12.0
+- requests >= 2.25.0
 
 ### 开发步骤
 
