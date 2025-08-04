@@ -31,8 +31,3 @@ parameter_rules:
     min: 1
     max: 16384
     default: 16384
-pricing:
-  input: "4"
-  output: "16"
-  unit: "0.000001"
-  currency: RMB
