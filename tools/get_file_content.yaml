@@ -1,0 +1,58 @@
+identity:
+  name: get_file_content
+  author: qiniu
+  label:
+    en_US: Get File Content
+    zh_Hans: 获取文件内容
+description:
+  human:
+    en_US: Get file content from Qiniu Cloud Storage by file key and domain. Generates signed URL and retrieves content.
+    zh_Hans: 通过文件 key 和域名从七牛云存储获取文件内容。生成签名链接并读取内容。
+  llm: A tool for retrieving file content from Qiniu Cloud Storage using file key and domain. Generates signed private download URL and fetches the content.
+parameters:
+  - name: file_key
+    type: string
+    required: true
+    label:
+      en_US: File Key
+      zh_Hans: 文件 Key
+    human_description:
+      en_US: The key (path) of the file in Qiniu Cloud Storage
+      zh_Hans: 七牛云存储中文件的 key（路径）
+    llm_description: The file key or path in Qiniu Cloud Storage that identifies the file to retrieve
+    form: llm
+    placeholder:
+      en_US: Enter file key, e.g. docs/example.txt
+      zh_Hans: 输入文件 key，例如 docs/example.txt
+  - name: domain
+    type: string
+    required: true
+    label:
+      en_US: Domain
+      zh_Hans: 域名
+    human_description:
+      en_US: The domain bound to your Qiniu Cloud Storage bucket
+      zh_Hans: 绑定到七牛云存储空间的域名
+    llm_description: The domain name bound to the Qiniu bucket for accessing files
+    form: llm
+    placeholder:
+      en_US: Enter domain, e.g. example.com or https://example.com
+      zh_Hans: 输入域名，例如 example.com 或 https://example.com
+  - name: expire_time
+    type: number
+    required: false
+    default: 3600
+    label:
+      en_US: Link Expiration Time
+      zh_Hans: 链接有效期
+    human_description:
+      en_US: The expiration time for the signed URL in seconds (default 3600 seconds = 1 hour)
+      zh_Hans: 签名链接的有效期，单位为秒（默认 3600 秒 = 1 小时）
+    llm_description: The expiration time in seconds for the generated signed download URL
+    form: form
+    placeholder:
+      en_US: Enter expiration time in seconds
+      zh_Hans: 输入有效期（秒）
+extra:
+  python:
+    source: tools/get_file_content.py

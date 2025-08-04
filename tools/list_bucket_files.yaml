@@ -1,0 +1,86 @@
+identity:
+  name: list_bucket_files
+  author: qiniu
+  label:
+    en_US: List Bucket Files
+    zh_Hans: 列出空间文件
+description:
+  human:
+    en_US: List files in a Qiniu Cloud Storage bucket with optional prefix filtering and pagination support
+    zh_Hans: 列出七牛云存储空间中的文件，支持前缀过滤和分页
+  llm: A tool for listing files in a Qiniu Cloud Storage bucket with optional prefix filtering and pagination support
+parameters:
+  - name: bucket
+    type: string
+    required: true
+    label:
+      en_US: Bucket Name
+      zh_Hans: 存储空间名称
+    human_description:
+      en_US: The name of the Qiniu Cloud Storage bucket to list files from
+      zh_Hans: 要列出文件的七牛云存储空间名称
+    llm_description: The name of the Qiniu Cloud Storage bucket to list files from
+    placeholder:
+      en_US: Enter bucket name, e.g. my-storage-bucket
+      zh_Hans: 输入存储空间名称，例如 my-storage-bucket
+    form: form
+  - name: prefix
+    type: string
+    required: false
+    label:
+      en_US: File Prefix
+      zh_Hans: 文件前缀
+    human_description:
+      en_US: Optional prefix to filter files (e.g. "uploads/", "docs/2025/"). Leave empty to list all files
+      zh_Hans: 可选的文件前缀过滤（例如 "uploads/"、"docs/2025/"）。留空则列出所有文件
+    llm_description: Optional prefix to filter files. Only files with keys starting with this prefix will be returned. Leave empty to list all files.
+    placeholder:
+      en_US: Enter prefix, e.g. uploads/ or docs/2025/
+      zh_Hans: 输入前缀，例如 uploads/ 或 docs/2025/
+    form: form
+  - name: limit
+    type: number
+    required: false
+    default: 100
+    label:
+      en_US: Max Results
+      zh_Hans: 最大结果数
+    human_description:
+      en_US: Maximum number of files to return (1-1000)
+      zh_Hans: 返回的最大文件数量（1-1000）
+    llm_description: Maximum number of files to return in one request. Must be between 1 and 1000.
+    placeholder:
+      en_US: Enter number between 1-1000, default is 100
+      zh_Hans: 输入1-1000之间的数字，默认100
+    form: form
+  - name: marker
+    type: string
+    required: false
+    label:
+      en_US: Pagination Marker
+      zh_Hans: 分页标记
+    human_description:
+      en_US: Pagination marker from previous request. Use the 'next_marker' from previous response to get next page
+      zh_Hans: 上一次请求的分页标记。使用上一次响应的 'next_marker' 来获取下一页
+    llm_description: Pagination marker to get next page of results. Use the 'next_marker' value from a previous response.
+    placeholder:
+      en_US: Enter marker from previous response
+      zh_Hans: 输入上一次响应的标记
+    form: form
+  - name: domain
+    type: string
+    required: false
+    label:
+      en_US: Custom Domain
+      zh_Hans: 自定义域名
+    human_description:
+      en_US: Optional custom domain with protocol for generating file URLs
+      zh_Hans: 可选的自定义域名（包含协议），用于生成文件访问链接
+    llm_description: Optional custom domain with protocol (http:// or https://) to generate complete access URLs for files. If not provided, URLs will be null.
+    placeholder:
+      en_US: Enter custom domain with protocol, e.g. https://cdn.example.com
+      zh_Hans: 输入包含协议的自定义域名，例如 https://cdn.example.com
+    form: form
+extra:
+  python:
+    source: tools/list_bucket_files.py

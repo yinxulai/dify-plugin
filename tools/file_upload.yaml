@@ -1,0 +1,91 @@
+identity:
+  name: file_upload
+  author: qiniu
+  label:
+    en_US: File Upload
+    zh_Hans: 对象存储上传
+description:
+  human:
+    en_US: Upload files to Qiniu Cloud Storage and get access URLs. Supports specifying bucket and custom domain.
+    zh_Hans: 上传文件到七牛云存储并获取访问链接。支持指定存储空间和自定义域名。
+  llm: A tool for uploading files to Qiniu Cloud Storage. Can upload content to specified bucket and return access URL.
+parameters:
+  - name: content
+    type: string
+    required: true
+    label:
+      en_US: Upload Content
+      zh_Hans: 上传内容
+    human_description:
+      en_US: The content to upload to Qiniu Cloud Storage
+      zh_Hans: 要上传到七牛云存储的内容
+    llm_description: The content/data to be uploaded to Qiniu Cloud Storage
+    form: llm
+  - name: filename
+    type: string
+    required: true
+    label:
+      en_US: File Name
+      zh_Hans: 文件名
+    human_description:
+      en_US: The name for the uploaded file
+      zh_Hans: 上传文件的名称
+    llm_description: The filename for the uploaded content
+    form: llm
+  - name: prefix
+    type: string
+    required: false
+    label:
+      en_US: File Prefix
+      zh_Hans: 文件前缀
+    human_description:
+      en_US: Optional prefix to add before the filename (e.g. "uploads/", "docs/2025/")
+      zh_Hans: 可选的文件前缀，添加到文件名前面（例如 "uploads/"、"docs/2025/"）
+    llm_description: Optional prefix to organize files in folders. Will be prepended to the filename during upload.
+    placeholder:
+      en_US: Enter prefix, e.g. uploads/ or docs/2025/
+      zh_Hans: 输入前缀，例如 uploads/ 或 docs/2025/
+    form: form
+  - name: bucket
+    type: string
+    required: true
+    label:
+      en_US: Bucket Name
+      zh_Hans: 存储空间名称
+    human_description:
+      en_US: The name of the Qiniu Cloud Storage bucket
+      zh_Hans: 七牛云存储空间的名称
+    llm_description: The name of the Qiniu Cloud Storage bucket where the file will be uploaded
+    placeholder:
+      en_US: Enter bucket name, e.g. my-storage-bucket
+      zh_Hans: 输入存储空间名称，例如 my-storage-bucket
+    form: form
+  - name: domain
+    type: string
+    required: false
+    label:
+      en_US: Custom Domain
+      zh_Hans: 自定义域名
+    human_description:
+      en_US: Optional custom domain with protocol for accessing the uploaded file
+      zh_Hans: 可选的自定义域名（包含协议），用于访问上传的文件
+    llm_description: Optional custom domain with protocol (http:// or https://) to generate complete access URL. If not provided, will return the file path only.
+    placeholder:
+      en_US: Enter custom domain with protocol, e.g. https://cdn.example.com
+      zh_Hans: 输入包含协议的自定义域名，例如 https://cdn.example.com
+    form: form
+  - name: overwrite
+    type: boolean
+    required: false
+    default: false
+    label:
+      en_US: Overwrite Existing File
+      zh_Hans: 覆盖已有文件
+    human_description:
+      en_US: Whether to overwrite the file if it already exists
+      zh_Hans: 如果文件已存在是否覆盖
+    llm_description: Set to true to overwrite existing file with the same filename, false to keep existing file
+    form: form
+extra:
+  python:
+    source: tools/file_upload.py

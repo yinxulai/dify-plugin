@@ -1,0 +1,15 @@
+identity:
+  name: list_buckets
+  author: qiniu
+  label:
+    en_US: List Buckets
+    zh_Hans: 列出存储空间
+description:
+  human:
+    en_US: List all storage buckets in the current Qiniu Cloud account
+    zh_Hans: 列出当前七牛云账户下的所有存储空间
+  llm: A tool for listing all storage buckets in the current Qiniu Cloud account
+parameters: []
+extra:
+  python:
+    source: tools/list_buckets.py
