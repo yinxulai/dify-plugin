@@ -5,9 +5,12 @@ label:
 model_type: llm
 features:
   - agent-thought
+  - tool-call
+  - multi-tool-call
+  - stream-tool-call
 model_properties:
   mode: chat
-  context_size: 131072
+  context_size: 128000
 parameter_rules:
   - name: temperature
     use_template: temperature
@@ -19,11 +22,17 @@ parameter_rules:
       zh_Hans: 取样数量
       en_US: Top k
     type: int
-    default: 1.0
     help:
       zh_Hans: 仅从每个后续标记的前 K 个选项中采样。
       en_US: Only sample from the top K options for each subsequent token.
     required: false
-  - name: presence_penalty
-    use_template: presence_penalty
-    default: 0
+  - name: max_tokens
+    use_template: max_tokens
+    min: 1
+    max: 16384
+    default: 16384
+pricing:
+  input: "4"
+  output: "16"
+  unit: "0.000001"
+  currency: RMB
