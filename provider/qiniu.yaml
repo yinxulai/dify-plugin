@@ -3,8 +3,8 @@ label:
   en_US: Qiniu Cloud
   zh_Hans: 七牛云
 description:
-  en_US: Official Qiniu Dify plugin providing AI inference services, supporting models such as deepseek-r1, deepseek-v3, and more.
-  zh_Hans: 七牛云官方 Dify 插件，提供 AI 推理服务，支持例如 deepseek-r1、deepseek-v3 等模型。
+  en_US: Official Qiniu Dify plugin providing AI inference services, supporting models such as glm 4.5, deepseek-r1, deepseek-v3, and more.
+  zh_Hans: 七牛云官方 Dify 插件，提供 AI 推理服务，支持例如 glm 4.5、deepseek-r1、deepseek-v3 等模型。
 icon_large:
   en_US: icon_l_en.svg
 icon_small:
