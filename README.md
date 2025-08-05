@@ -121,6 +121,84 @@ pip install -r requirements.txt
 python -m main
 ```
 
+## 贡献指南
+
+我们欢迎社区贡献！以下是参与贡献的几种方式：
+
+### 🙏 贡献者
+
+感谢所有为这个项目做出贡献的开发者：
+
+<a href="https://github.com/qiniu/dify-plugin/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=qiniu/dify-plugin" alt="贡献者" />
+</a>
+
+*由 [contrib.rocks](https://contrib.rocks) 自动生成*
+
+### 🐛 报告 Bug
+
+如果你发现了 Bug，请通过以下方式报告：
+
+1. **检查已有 Issues**：在提交新 Issue 前，请先检查 [Issues 页面](https://github.com/qiniu/dify-plugin/issues) 是否已有相关问题
+2. **提供详细信息**：报告 Bug 时请包含：
+   - 详细的问题描述
+   - 复现步骤
+   - 预期行为 vs 实际行为
+   - 环境信息（操作系统、Python 版本、Dify 版本等）
+   - 相关的错误日志或截图
+
+### 💡 功能建议
+
+如果你有新功能的想法：
+
+1. 先在 [Issues](https://github.com/qiniu/dify-plugin/issues) 中搜索是否有类似建议
+2. 如果没有，创建新的 Issue 并标记为 `enhancement`
+3. 详细描述你的想法和使用场景
+
+### 🛠️ 代码贡献
+
+1. **Fork 此仓库**到你的 GitHub 账户
+2. **创建功能分支**：`git checkout -b feature/your-feature-name`
+3. **本地开发**：
+   - 遵循现有的代码风格
+   - 确保你的更改不会破坏现有功能
+   - 如果可能，添加相应的测试
+4. **提交更改**：
+   - 使用清晰、简洁的提交信息
+   - 建议使用英文提交信息，格式：`type: description`
+   - 示例：`feat: add new model support for GLM-5`
+5. **推送分支**：`git push origin feature/your-feature-name`
+6. **创建 Pull Request**：
+   - 在 PR 描述中详细说明你的更改
+   - 如果 PR 解决了某个 Issue，请在描述中引用：`Fixes #issue-number`
+
+### 📝 文档贡献
+
+文档改进同样重要：
+
+- 修正错别字或不准确的信息
+- 补充缺失的文档
+- 改进文档结构和可读性
+- 翻译文档到其他语言
+
+### 🏷️ Issue 标签说明
+
+为了更好地管理 Issues，我们使用以下标签：
+
+- `bug`：确认的 Bug 报告
+- `enhancement`：功能增强或新功能请求
+- `documentation`：文档相关的改进
+- `good first issue`：适合新贡献者的简单问题
+- `help wanted`：需要社区帮助的问题
+- `question`：使用问题或询问
+
+### 📞 联系方式
+
+如果你有任何问题或建议，可以通过以下方式联系我们：
+
+- 在 GitHub 上创建 [Issue](https://github.com/qiniu/dify-plugin/issues)
+- 通过 GitHub Discussions 参与讨论
+
 ## 许可证
 
 本项目采用 MIT 开源许可证，具体详情请查看 LICENSE 文件。
