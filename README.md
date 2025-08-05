@@ -6,6 +6,8 @@
 
 ## 功能特性
 
+![插件预览](_assets/plugin_overview.png)
+
 ### 🤖 AI 推理模型供应商
 
 支持多种先进的 AI 大语言模型：
