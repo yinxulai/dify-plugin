@@ -12,6 +12,7 @@
 
 支持多种先进的 AI 大语言模型：
 
+- **OpenAI 开源系列**：GPT-OSS-120b、GPT-OSS-20b
 - **DeepSeek 系列**：deepseek-r1、deepseek-v3
 - **GLM 系列**：GLM-4.5、GLM-4.5-Air
 - **Kimi 系列**：Kimi-K2
