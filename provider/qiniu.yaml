@@ -3,8 +3,8 @@ label:
   en_US: Qiniu Cloud
   zh_Hans: 七牛云
 description:
-  en_US: Official Qiniu Cloud Dify plugin providing comprehensive AI inference services and cloud storage management. Supports multiple LLM models including deepseek-r1, deepseek-v3, GLM-4.5, Kimi-K2, Qwen series, and offers complete file management capabilities such as file upload, bucket operations, and content retrieval.
-  zh_Hans: 七牛云官方 Dify 插件，提供全面的 AI 推理服务和云存储管理功能。支持 deepseek-r1、deepseek-v3、GLM-4.5、Kimi-K2、Qwen 系列等多种大语言模型，并提供完整的文件管理能力，包括文件上传、存储空间操作和内容获取等功能。
+  en_US: Official Qiniu Cloud Dify plugin providing comprehensive AI inference services and cloud storage management. Supports multiple LLM models including GPT-OSS、deepseek、GLM、Kimi、Qwen series, and offers complete file management capabilities such as file upload, bucket operations, and content retrieval.
+  zh_Hans: 七牛云官方 Dify 插件，提供全面的 AI 推理服务和云存储管理功能。支持 GPT-OSS、deepseek、GLM、Kimi、Qwen 系列等多种大语言模型，并提供完整的文件管理能力，包括文件上传、存储空间操作和内容获取等功能。
 
 icon_large:
   en_US: icon_l_en.svg

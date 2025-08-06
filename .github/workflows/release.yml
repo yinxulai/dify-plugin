@@ -18,9 +18,15 @@ jobs:
         curl -L -o /tmp/dify-cli/dify-plugin-linux-amd64 https://github.com/langgenius/dify-plugin-daemon/releases/download/0.2.0/dify-plugin-linux-amd64
         chmod +x /tmp/dify-cli/dify-plugin-linux-amd64
         
+    - name: Prepare plugin files
+      run: |
+        mkdir -p /tmp/plugin-build
+        # 复制需要的文件，排除 .git、.github 等不需要的目录
+        rsync -av --exclude='.git' --exclude='.github' . /tmp/plugin-build/
+
     - name: Package plugin
       run: |
-        /tmp/dify-cli/dify-plugin-linux-amd64 plugin package -o qiniu.difypkg .
+        /tmp/dify-cli/dify-plugin-linux-amd64 plugin package -o qiniu.difypkg /tmp/plugin-build
         
     - name: Upload package to release
       uses: actions/upload-release-asset@v1
