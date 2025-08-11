@@ -17,7 +17,7 @@ meta:
     entrypoint: main
     language: python
     version: '3.12'
-  version: 0.0.2
+  version: 0.0.1
 plugins:
   models:
   - provider/qiniu.yaml
@@ -37,4 +37,4 @@ resource:
     tool:
       enabled: true
 type: plugin
-version: 0.1.1
+version: 0.1.2
