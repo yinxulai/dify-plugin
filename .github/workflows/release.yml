@@ -24,9 +24,20 @@ jobs:
         # 复制需要的文件，排除 .git、.github 等不需要的目录
         rsync -av --exclude='.git' --exclude='.github' . /tmp/plugin-build/
 
+    - name: Extract version from manifest
+      id: get_version
+      run: |
+        VERSION=$(grep '^version:' /tmp/plugin-build/manifest.yaml | sed 's/version: //')
+        PACKAGE_NAME="qiniu-${VERSION}.difypkg"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+        echo "Extracted version: $VERSION"
+        echo "Package name: $PACKAGE_NAME"
+
     - name: Package plugin
       run: |
-        /tmp/dify-cli/dify-plugin-linux-amd64 plugin package -o qiniu.difypkg /tmp/plugin-build
+        PACKAGE_NAME="${{ steps.get_version.outputs.package_name }}"
+        /tmp/dify-cli/dify-plugin-linux-amd64 plugin package -o "$PACKAGE_NAME" /tmp/plugin-build
         
     - name: Upload package to release
       uses: actions/upload-release-asset@v1
@@ -34,6 +45,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_name: qiniu.difypkg
-        asset_path: ./qiniu.difypkg
+        asset_name: ${{ steps.get_version.outputs.package_name }}
+        asset_path: ./${{ steps.get_version.outputs.package_name }}
         asset_content_type: application/octet-stream
