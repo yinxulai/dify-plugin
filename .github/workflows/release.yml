@@ -7,10 +7,36 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - type: "ai"
+            name: "qiniu-models"
+            description: "AI inference services"
+            description_zh: "AI 推理服务"
+            keep_models: true
+            keep_tools: false
+          - type: "kodo"
+            name: "qiniu-tools"
+            description: "cloud storage management tools"
+            description_zh: "云存储管理工具"
+            keep_models: false
+            keep_tools: true
+          - type: "all"
+            name: "qiniu"
+            description: "AI inference services and cloud storage management"
+            description_zh: "AI 推理服务和云存储管理功能"
+            keep_models: true
+            keep_tools: true
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      
+    - name: Install yq for YAML processing
+      run: |
+        sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+        sudo chmod +x /usr/local/bin/yq
       
     - name: Download Dify Plugin CLI
       run: |
@@ -22,13 +48,48 @@ jobs:
       run: |
         mkdir -p /tmp/plugin-build
         # 复制需要的文件，排除 .git、.github 等不需要的目录
-        rsync -av --exclude='.git' --exclude='.github' . /tmp/plugin-build/
+        rsync -av --exclude='.git' --exclude='.github' --exclude='build.sh' --exclude='__pycache__' . /tmp/plugin-build/
+
+    - name: Configure plugin for ${{ matrix.type }}
+      run: |
+        cd /tmp/plugin-build
+        
+        # 更新 manifest.yaml
+        yq eval '.name = "${{ matrix.name }}"' -i manifest.yaml
+        yq eval '.description.en_US = "${{ matrix.description }}"' -i manifest.yaml
+        yq eval '.description.zh_Hans = "${{ matrix.description_zh }}"' -i manifest.yaml
+        
+        # 根据类型删除不需要的文件和配置
+        if [ "${{ matrix.keep_models }}" = "false" ]; then
+          echo "🗑️  删除模型相关文件..."
+          rm -rf models/
+          rm -f provider/qiniu_ai.py provider/qiniu_ai.yaml
+          yq eval 'del(.plugins.models)' -i manifest.yaml
+          yq eval '.resource.permission = {"tool": {"enabled": true}}' -i manifest.yaml
+        fi
+        
+        if [ "${{ matrix.keep_tools }}" = "false" ]; then
+          echo "🗑️  删除工具相关文件..."
+          rm -rf tools/
+          rm -f provider/qiniu_tools.py provider/qiniu_tools.yaml
+          yq eval 'del(.plugins.tools)' -i manifest.yaml
+          yq eval '.resource.permission = {"model": {"llm": true, "rerank": false, "enabled": true, "moderation": false, "speech2text": false, "text_embedding": false, "tts": false}}' -i manifest.yaml
+        fi
+        
+        # 清理空的 provider 目录
+        if [ -d provider ] && [ -z "$(ls -A provider)" ]; then
+          rm -rf provider/
+        fi
+        
+        # 清理 __pycache__ 文件
+        find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+        find . -name "*.pyc" -delete 2>/dev/null || true
 
     - name: Extract version from manifest
       id: get_version
       run: |
-        VERSION=$(grep '^version:' /tmp/plugin-build/manifest.yaml | sed 's/version: //')
-        PACKAGE_NAME="qiniu-${VERSION}.difypkg"
+        VERSION=$(yq eval '.version' /tmp/plugin-build/manifest.yaml)
+        PACKAGE_NAME="${{ matrix.name }}-${VERSION}.difypkg"
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
         echo "Extracted version: $VERSION"
