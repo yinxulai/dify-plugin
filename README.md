@@ -1,6 +1,15 @@
 # 七牛云 Dify 插件
 
-七牛云官方的 Dify 插件，为 Dify 平台提供全面的 AI 推理服务和云存储管理功能。
+七牛云官方的 Dify 插件，为 Dify 平台提供全面的 AI 推理服务和云存储管理功能。支持 Claude 4.x 系列、DeepSeek V3.1、Qwen3 系列、Grok Code 等最新 AI 模型，并提供灵活的包类型选择。
+
+## 📦 仓库信息
+
+- **仓库地址**：[https://github.com/qiniu/dify-plugin](https://github.com/qiniu/dify-plugin)
+- **完整功能版本**：通过仓库地址安装可获得包含 AI 推理 + 存储工具的完整功能
+- **官方发布**：[Release 页面](https://github.com/qiniu/dify-plugin/releases) 提供离线安装包
+- **许可证**：MIT License
+
+> 💡 **提示**：由于 Dify 商店限制，推荐通过仓库地址安装以获得完整功能！
 
 ![插件预览](_assets/plugin_preview.png)
 
@@ -13,10 +22,14 @@
 支持多种先进的 AI 大语言模型：
 
 - **OpenAI 开源系列**：GPT-OSS-120b、GPT-OSS-20b
-- **DeepSeek 系列**：deepseek-r1、deepseek-v3
+- **DeepSeek 系列**：DeepSeek-R1、DeepSeek-V3、DeepSeek-V3.1（128k上下文）
+- **Claude 系列**：Claude 3.5 Sonnet、Claude 3.7 Sonnet、Claude 4.0 Sonnet、Claude 4.0 Opus、Claude 4.1 Opus（200k上下文）
 - **GLM 系列**：GLM-4.5、GLM-4.5-Air
 - **Kimi 系列**：Kimi-K2
-- **Qwen 系列**：Qwen-Turbo、Qwen3-32B
+- **Qwen 系列**：Qwen-Turbo、Qwen3-32B、Qwen3-235B-A22B（128k上下文）、Qwen3-Max-Preview（256k上下文）
+- **Grok 系列**：Grok Code Fast 1（256k上下文，专为代码场景优化）
+
+所有模型均支持智能体思考、工具调用、多工具调用和流式工具调用功能。
 
 ### 📁 对象存储工具
 
@@ -29,30 +42,56 @@
 
 ## 安装使用
 
-### 方式一：通过仓库地址安装（推荐）
+**📍 仓库地址**：[https://github.com/qiniu/dify-plugin](https://github.com/qiniu/dify-plugin)
+
+**重要说明**：由于 Dify 官方商店的设计限制，单个插件不能同时包含AI模型和工具功能（[详见官方说明](https://github.com/langgenius/dify-plugins/issues/1076)），因此我们在商店中分别上架了两个独立的插件。但是，**通过仓库地址安装可以获得包含所有功能的完整版本**。
+
+本插件提供三种不同的包类型：
+
+- **qiniu**：完整功能包，包含 AI 推理和存储工具（**仅支持仓库安装和离线安装**）
+- **qiniu-ai**：仅包含 AI 推理模型（支持所有安装方式）
+- **qiniu-tools**：仅包含存储管理工具（支持所有安装方式）
+
+### 方式一：通过仓库地址安装（推荐，支持完整功能）
+
+**这是获得完整功能的唯一途径！**
 
 1. 在 Dify 中选择 "Github" 安装方式
-2. 输入本仓库地址后提交安装
+2. 输入本仓库地址：`https://github.com/qiniu/dify-plugin`
+3. 将获得包含AI推理和存储工具的完整功能包
 
-### 方式二：通过离线安装包安装（推荐）
+### 方式二：通过离线安装包安装（推荐，支持完整功能）
 
-1. 在 `release` 手动下载离线安装包
+1. 在 [Release 页面](https://github.com/qiniu/dify-plugin/releases) 下载对应的离线安装包
+   - `qiniu.difypkg`：完整功能包（AI + 存储工具）
+   - `qiniu-ai.difypkg`：仅 AI 推理模型
+   - `qiniu-tools.difypkg`：仅存储工具
 2. 在 Dify 中选择"本地插件"安装方式
-3. 上传插件包安装
+3. 上传对应的插件包安装
 
-### 方式三：插件市场安装
+### 方式三：插件市场安装（功能受限）
 
-> 插件市场版本更新没有上述两种版本更新及时
+> ⚠️ **注意**：由于商店限制，无法提供完整功能包，需要分别安装两个插件
 
 1. 访问 [Dify 插件市场](https://marketplace.dify.ai)
-2. 搜索"七牛云"或"Qiniu"
-3. 点击安装并按照提示配置
+2. 搜索并安装：
+   - "Qiniu AI" 或 "七牛云 AI" - 获得AI推理功能
+   - "Qiniu Storage Tools" 或 "七牛云存储工具" - 获得存储管理功能
+3. 如需完整功能，请选择方式一或方式二
 
 ## 配置说明
 
+配置需求取决于你选择的安装方式和功能需求：
+
 ### AI 模型配置
 
-插件安装后，在[模型供应商设置](https://cloud.dify.ai/plugins)页面对 AI 模型进行配置：
+**适用于**：
+
+- 通过仓库/离线安装的完整功能包
+- 商店安装的 "Qiniu AI" 插件
+- 离线安装的 `qiniu-ai.difypkg`
+
+在[模型供应商设置](https://cloud.dify.ai/plugins)页面对 AI 模型进行配置：
 
 ![插件预览](_assets/plugin_config_preview.png)
 
@@ -67,6 +106,12 @@
 
 ### 对象存储工具配置
 
+**适用于**：
+
+- 通过仓库/离线安装的完整功能包
+- 商店安装的 "Qiniu Storage Tools" 插件
+- 离线安装的 `qiniu-tools.difypkg`
+
 在工具配置页面设置七牛云存储凭证：
 
 **必需配置**：
@@ -79,6 +124,22 @@
 ### 环境要求
 
 - Python 3.11+
+
+### 项目架构
+
+本项目采用模块化架构，支持生成多种包类型：
+
+- **完整包（qiniu）**：包含 AI 推理和存储工具的完整功能
+- **AI 包（qiniu-ai）**：仅包含 AI 推理模型供应商
+- **工具包（qiniu-tools）**：仅包含存储管理工具
+
+### CI/CD 工作流
+
+项目配置了自动化的 CI/CD 流程：
+
+- **测试工作流**：在每次 push 和 PR 时自动测试所有包类型
+- **发布工作流**：标签推送时自动构建并发布三种包类型
+- **多 Python 版本支持**：测试 Python 3.11 和 3.12
 
 ### 开发步骤
 
