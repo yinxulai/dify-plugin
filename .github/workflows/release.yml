@@ -68,6 +68,18 @@ jobs:
           yq eval '.resource.permission = {"model": {"llm": true, "rerank": false, "enabled": true, "moderation": false, "speech2text": false, "text_embedding": false, "tts": false}}' -i manifest.yaml
         fi
         
+        # 确保 plugins 配置与实际文件一致
+        if [ "${{ matrix.keep_models }}" = "true" ] && [ "${{ matrix.keep_tools }}" = "false" ]; then
+          echo "📝 配置仅模型插件..."
+          yq eval '.plugins = {"models": ["provider/qiniu_ai.yaml"]}' -i manifest.yaml
+        elif [ "${{ matrix.keep_models }}" = "false" ] && [ "${{ matrix.keep_tools }}" = "true" ]; then
+          echo "📝 配置仅工具插件..."
+          yq eval '.plugins = {"tools": ["provider/qiniu_tools.yaml"]}' -i manifest.yaml
+        elif [ "${{ matrix.keep_models }}" = "true" ] && [ "${{ matrix.keep_tools }}" = "true" ]; then
+          echo "📝 配置完整插件..."
+          yq eval '.plugins = {"models": ["provider/qiniu_ai.yaml"], "tools": ["provider/qiniu_tools.yaml"]}' -i manifest.yaml
+        fi
+        
         # 清理空的 provider 目录
         if [ -d provider ] && [ -z "$(ls -A provider)" ]; then
           rm -rf provider/
