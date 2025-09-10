@@ -50,4 +50,4 @@ extra:
   python:
     model_sources:
     - models/llm/llm.py
-    provider_source: provider/qiniu.py
+    provider_source: provider/qiniu_ai.py
