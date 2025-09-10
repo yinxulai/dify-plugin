@@ -15,14 +15,20 @@ jobs:
         package-type:
           - type: "ai"
             name: "qiniu-models"
+            label_en: "Qiniu AI Models"
+            label_zh: "七牛云 AI 模型"
             keep_models: true
             keep_tools: false
           - type: "kodo"
             name: "qiniu-tools"
+            label_en: "Qiniu Storage Tools"
+            label_zh: "七牛云存储工具"
             keep_models: false
             keep_tools: true
           - type: "all"
             name: "qiniu"
+            label_en: "Qiniu Cloud"
+            label_zh: "七牛云"
             keep_models: true
             keep_tools: true
 
@@ -55,6 +61,8 @@ jobs:
         
         # 更新 manifest.yaml
         yq eval '.name = "${{ matrix.package-type.name }}"' -i manifest.yaml
+        yq eval '.label.en_US = "${{ matrix.package-type.label_en }}"' -i manifest.yaml
+        yq eval '.label.zh_Hans = "${{ matrix.package-type.label_zh }}"' -i manifest.yaml
         
         # 根据类型删除不需要的文件和配置
         if [ "${{ matrix.package-type.keep_models }}" = "false" ]; then
