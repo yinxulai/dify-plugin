@@ -14,9 +14,9 @@ jobs:
         python-version: ["3.11", "3.12"]
         package-type:
           - type: "ai"
-            name: "qiniu-models"
-            label_en: "Qiniu AI Models"
-            label_zh: "七牛云 AI 模型"
+            name: "qiniu-ai"
+            label_en: "Qiniu AI"
+            label_zh: "七牛云 AI"
             keep_models: true
             keep_tools: false
           - type: "kodo"

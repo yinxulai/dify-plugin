@@ -11,15 +11,15 @@ jobs:
       matrix:
         include:
           - type: "ai"
-            name: "qiniu-models"
-            label_en: "Qiniu AI Models"
-            label_zh: "七牛云 AI 模型"
+            name: "qiniu-ai"
+            label_en: "Qiniu AI"
+            label_zh: "七牛云 AI"
             keep_models: true
             keep_tools: false
           - type: "kodo"
             name: "qiniu-tools"
-            label_en: "Qiniu Storage Tools"
-            label_zh: "七牛云存储工具"
+            label_en: "Qiniu Storage"
+            label_zh: "七牛云存储"
             keep_models: false
             keep_tools: true
           - type: "all"
