@@ -12,6 +12,25 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.11", "3.12"]
+        package-type:
+          - type: "ai"
+            name: "qiniu-ai"
+            label_en: "Qiniu AI"
+            label_zh: "七牛云 AI"
+            keep_models: true
+            keep_tools: false
+          - type: "kodo"
+            name: "qiniu-tools"
+            label_en: "Qiniu Storage Tools"
+            label_zh: "七牛云存储工具"
+            keep_models: false
+            keep_tools: true
+          - type: "all"
+            name: "qiniu"
+            label_en: "Qiniu Cloud"
+            label_zh: "七牛云"
+            keep_models: true
+            keep_tools: true
 
     steps:
     - uses: actions/checkout@v4
@@ -21,11 +40,71 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - name: Install yq for YAML processing
+      run: |
+        sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+        sudo chmod +x /usr/local/bin/yq
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Test plugin runs without errors
+    - name: Prepare test environment for ${{ matrix.package-type.type }} package
       run: |
+        # 创建测试目录
+        mkdir -p /tmp/test-plugin
+        # 复制文件，排除不需要的目录
+        rsync -av --exclude='.git' --exclude='.github' --exclude='build.sh' --exclude='__pycache__' . /tmp/test-plugin/
+        
+        cd /tmp/test-plugin
+        
+        # 更新 manifest.yaml
+        yq eval '.name = "${{ matrix.package-type.name }}"' -i manifest.yaml
+        yq eval '.label.en_US = "${{ matrix.package-type.label_en }}"' -i manifest.yaml
+        yq eval '.label.zh_Hans = "${{ matrix.package-type.label_zh }}"' -i manifest.yaml
+        
+        # 根据类型删除不需要的文件和配置
+        if [ "${{ matrix.package-type.keep_models }}" = "false" ]; then
+          echo "🗑️  删除模型相关文件..."
+          rm -rf models/
+          rm -f provider/qiniu_ai.py provider/qiniu_ai.yaml
+          yq eval 'del(.plugins.models)' -i manifest.yaml
+          yq eval '.resource.permission = {"tool": {"enabled": true}}' -i manifest.yaml
+        fi
+        
+        if [ "${{ matrix.package-type.keep_tools }}" = "false" ]; then
+          echo "🗑️  删除工具相关文件..."
+          rm -rf tools/
+          rm -f provider/qiniu_tools.py provider/qiniu_tools.yaml
+          yq eval 'del(.plugins.tools)' -i manifest.yaml
+          yq eval '.resource.permission = {"model": {"llm": true, "rerank": false, "enabled": true, "moderation": false, "speech2text": false, "text_embedding": false, "tts": false}}' -i manifest.yaml
+        fi
+        
+        # 确保 plugins 配置与实际文件一致
+        if [ "${{ matrix.package-type.keep_models }}" = "true" ] && [ "${{ matrix.package-type.keep_tools }}" = "false" ]; then
+          echo "📝 配置仅模型插件..."
+          yq eval '.plugins = {"models": ["provider/qiniu_ai.yaml"]}' -i manifest.yaml
+        elif [ "${{ matrix.package-type.keep_models }}" = "false" ] && [ "${{ matrix.package-type.keep_tools }}" = "true" ]; then
+          echo "📝 配置仅工具插件..."
+          yq eval '.plugins = {"tools": ["provider/qiniu_tools.yaml"]}' -i manifest.yaml
+        elif [ "${{ matrix.package-type.keep_models }}" = "true" ] && [ "${{ matrix.package-type.keep_tools }}" = "true" ]; then
+          echo "📝 配置完整插件..."
+          yq eval '.plugins = {"models": ["provider/qiniu_ai.yaml"], "tools": ["provider/qiniu_tools.yaml"]}' -i manifest.yaml
+        fi
+        
+        # 清理空的 provider 目录
+        if [ -d provider ] && [ -z "$(ls -A provider)" ]; then
+          rm -rf provider/
+        fi
+        
+        # 清理 __pycache__ 文件
+        find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+        find . -name "*.pyc" -delete 2>/dev/null || true
+
+    - name: Test ${{ matrix.package-type.type }} package runs without errors
+      run: |
+        cd /tmp/test-plugin
+        echo "🧪 Testing ${{ matrix.package-type.name }} package..."
         timeout 10s python -m main || [ $? -eq 124 ]
+        echo "✅ ${{ matrix.package-type.name }} package runs successfully"

@@ -20,7 +20,7 @@ meta:
   version: 0.0.1
 plugins:
   models:
-  - provider/qiniu.yaml
+  - provider/qiniu_ai.yaml
   tools:
   - provider/qiniu_tools.yaml
 resource:
