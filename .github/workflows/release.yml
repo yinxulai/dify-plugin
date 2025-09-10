@@ -12,20 +12,14 @@ jobs:
         include:
           - type: "ai"
             name: "qiniu-models"
-            description: "AI inference services"
-            description_zh: "AI 推理服务"
             keep_models: true
             keep_tools: false
           - type: "kodo"
             name: "qiniu-tools"
-            description: "cloud storage management tools"
-            description_zh: "云存储管理工具"
             keep_models: false
             keep_tools: true
           - type: "all"
             name: "qiniu"
-            description: "AI inference services and cloud storage management"
-            description_zh: "AI 推理服务和云存储管理功能"
             keep_models: true
             keep_tools: true
     
@@ -56,8 +50,6 @@ jobs:
         
         # 更新 manifest.yaml
         yq eval '.name = "${{ matrix.name }}"' -i manifest.yaml
-        yq eval '.description.en_US = "${{ matrix.description }}"' -i manifest.yaml
-        yq eval '.description.zh_Hans = "${{ matrix.description_zh }}"' -i manifest.yaml
         
         # 根据类型删除不需要的文件和配置
         if [ "${{ matrix.keep_models }}" = "false" ]; then
