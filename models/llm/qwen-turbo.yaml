@@ -1,7 +1,7 @@
 model: qwen-turbo
 label:
-  zh_Hans: qwen-turbo
-  en_US: qwen-turbo
+  zh_Hans: Qwen Turbo
+  en_US: Qwen Turbo
 model_type: llm
 features:
   - agent-thought

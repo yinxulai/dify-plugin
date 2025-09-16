@@ -11,19 +11,22 @@ jobs:
       matrix:
         include:
           - type: "ai"
-            name: "qiniu-ai"
+            name: "qiniu"
+            filename: "qiniu-ai"
             label_en: "Qiniu AI"
             label_zh: "七牛云 AI"
             keep_models: true
             keep_tools: false
           - type: "kodo"
             name: "qiniu-tools"
+            filename: "qiniu-storage"
             label_en: "Qiniu Storage"
             label_zh: "七牛云存储"
             keep_models: false
             keep_tools: true
           - type: "all"
-            name: "qiniu"
+            name: "qiniu-all"
+            filename: "qiniu-all"
             label_en: "Qiniu Cloud"
             label_zh: "七牛云"
             keep_models: true
@@ -101,7 +104,7 @@ jobs:
       id: get_version
       run: |
         VERSION=$(yq eval '.version' /tmp/plugin-build/manifest.yaml)
-        PACKAGE_NAME="${{ matrix.name }}-${VERSION}.difypkg"
+        PACKAGE_NAME="${{ matrix.filename }}-${VERSION}.difypkg"
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
         echo "Extracted version: $VERSION"

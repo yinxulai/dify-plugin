@@ -1,7 +1,7 @@
 model: glm-4.5-air
 label:
-  zh_Hans: glm-4.5-air
-  en_US: glm-4.5-air
+  zh_Hans: GLM-4.5 Air
+  en_US: GLM-4.5 Air
 model_type: llm
 features:
   - agent-thought

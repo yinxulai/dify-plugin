@@ -1,7 +1,7 @@
 model: qwen3-32b
 label:
-  zh_Hans: qwen3-32b
-  en_US: qwen3-32b
+  zh_Hans: Qwen3 32B
+  en_US: Qwen3 32B
 model_type: llm
 features:
   - agent-thought
