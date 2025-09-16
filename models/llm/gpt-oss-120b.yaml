@@ -1,7 +1,7 @@
 model: gpt-oss-120b
 label:
-  zh_Hans: gpt-oss-120b
-  en_US: gpt-oss-120b
+  zh_Hans: GPT-OSS 120B
+  en_US: GPT-OSS 120B
 model_type: llm
 features:
   - tool-call

@@ -1,7 +1,7 @@
 model: glm-4.5
 label:
-  zh_Hans: glm-4.5
-  en_US: glm-4.5
+  zh_Hans: GLM-4.5
+  en_US: GLM-4.5
 model_type: llm
 features:
   - agent-thought

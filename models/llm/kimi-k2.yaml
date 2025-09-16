@@ -1,7 +1,7 @@
 model: kimi-k2
 label:
-  zh_Hans: kimi-k2
-  en_US: kimi-k2
+  zh_Hans: Kimi K2
+  en_US: Kimi K2
 model_type: llm
 features:
   - agent-thought
