@@ -19,8 +19,8 @@ jobs:
             keep_tools: false
           - type: "kodo"
             name: "qiniu-tools"
-            filename: "qiniu-storage"
-            label_en: "Qiniu Storage"
+            filename: "qiniu-tools"
+            label_en: "Qiniu Tools"
             label_zh: "七牛云存储"
             keep_models: false
             keep_tools: true
