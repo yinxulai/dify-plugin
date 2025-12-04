@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # 自动发布脚本
-# 用法: ./scripts/release.sh <plugin> <version>
-# 示例: ./scripts/release.sh ai-models 0.2.1
+# 用法: ./scripts/release.sh [version]
+# 示例: ./scripts/release.sh 0.2.1
+#       ./scripts/release.sh (交互式选择插件和版本)
 
 set -e
 
@@ -11,28 +12,113 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-# 参数检查
-if [ $# -ne 2 ]; then
-    echo -e "${RED}错误: 参数不足${NC}"
-    echo "用法: $0 <plugin> <version>"
-    echo "示例: $0 ai-models 0.2.1"
+# 可用插件列表
+declare -A PLUGINS
+PLUGINS[1]="ai-models|qiniu-ai-models|七牛云 AI 模型"
+PLUGINS[2]="storage-tools|qiniu-storage-tools|七牛云存储工具"
+
+# 交互式选择插件
+select_plugin() {
+    echo -e "${CYAN}========================================${NC}"
+    echo -e "${CYAN}请选择要发布的插件:${NC}"
+    echo -e "${CYAN}========================================${NC}"
     echo ""
-    echo "可用的插件:"
-    echo "  - ai-models      (qiniu-ai-models)"
-    echo "  - storage-tools  (qiniu-storage-tools)"
-    exit 1
-fi
+    
+    for i in "${!PLUGINS[@]}"; do
+        IFS='|' read -r short_name full_name label <<< "${PLUGINS[$i]}"
+        echo -e "  ${GREEN}[$i]${NC} $label ($full_name)"
+    done
+    echo ""
+    
+    while true; do
+        read -p "请输入选项 [1-${#PLUGINS[@]}]: " choice
+        
+        if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "${#PLUGINS[@]}" ]; then
+            IFS='|' read -r PLUGIN PLUGIN_NAME PLUGIN_LABEL <<< "${PLUGINS[$choice]}"
+            PLUGIN_DIR="$PLUGIN_NAME"
+            break
+        else
+            echo -e "${RED}无效选择，请重试${NC}"
+        fi
+    done
+    
+    echo ""
+    echo -e "${GREEN}✓${NC} 已选择: $PLUGIN_LABEL"
+    echo ""
+}
 
-PLUGIN=$1
-VERSION=$2
-
-# 验证插件名
-if [[ ! "$PLUGIN" =~ ^(ai-models|storage-tools)$ ]]; then
-    echo -e "${RED}错误: 无效的插件名 '$PLUGIN'${NC}"
-    echo "有效的插件名: ai-models, storage-tools"
-    exit 1
+# 参数处理
+if [ $# -eq 0 ]; then
+    # 无参数：交互式选择插件和输入版本
+    select_plugin
+    
+    echo -e "${CYAN}请输入版本号 (格式: x.y.z):${NC}"
+    read -p "版本号: " VERSION
+elif [ $# -eq 1 ]; then
+    # 一个参数：可能是版本号或插件名
+    if [[ "$1" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        # 参数是版本号，交互式选择插件
+        VERSION=$1
+        select_plugin
+    else
+        # 参数是插件名，交互式输入版本
+        PLUGIN=$1
+        # 验证插件名
+        PLUGIN_FOUND=false
+        for i in "${!PLUGINS[@]}"; do
+            IFS='|' read -r short_name full_name label <<< "${PLUGINS[$i]}"
+            if [ "$PLUGIN" = "$short_name" ]; then
+                PLUGIN_NAME="$full_name"
+                PLUGIN_DIR="$full_name"
+                PLUGIN_LABEL="$label"
+                PLUGIN_FOUND=true
+                break
+            fi
+        done
+        
+        if [ "$PLUGIN_FOUND" = false ]; then
+            echo -e "${RED}错误: 无效的插件名 '$PLUGIN'${NC}"
+            echo "可用的插件:"
+            for i in "${!PLUGINS[@]}"; do
+                IFS='|' read -r short_name full_name label <<< "${PLUGINS[$i]}"
+                echo "  - $short_name"
+            done
+            exit 1
+        fi
+        
+        echo -e "${CYAN}请输入版本号 (格式: x.y.z):${NC}"
+        read -p "版本号: " VERSION
+    fi
+else
+    # 两个参数：传统模式
+    PLUGIN=$1
+    VERSION=$2
+    
+    # 验证插件名并设置变量
+    PLUGIN_FOUND=false
+    for i in "${!PLUGINS[@]}"; do
+        IFS='|' read -r short_name full_name label <<< "${PLUGINS[$i]}"
+        if [ "$PLUGIN" = "$short_name" ]; then
+            PLUGIN_NAME="$full_name"
+            PLUGIN_DIR="$full_name"
+            PLUGIN_LABEL="$label"
+            PLUGIN_FOUND=true
+            break
+        fi
+    done
+    
+    if [ "$PLUGIN_FOUND" = false ]; then
+        echo -e "${RED}错误: 无效的插件名 '$PLUGIN'${NC}"
+        echo "可用的插件:"
+        for i in "${!PLUGINS[@]}"; do
+            IFS='|' read -r short_name full_name label <<< "${PLUGINS[$i]}"
+            echo "  - $short_name"
+        done
+        exit 1
+    fi
 fi
 
 # 验证版本格式
@@ -40,17 +126,6 @@ if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo -e "${RED}错误: 无效的版本格式 '$VERSION'${NC}"
     echo "版本格式应为: x.y.z (例如: 0.2.1)"
     exit 1
-fi
-
-# 设置插件目录和名称
-if [ "$PLUGIN" = "ai-models" ]; then
-    PLUGIN_DIR="qiniu-ai-models"
-    PLUGIN_NAME="qiniu-ai-models"
-    PLUGIN_LABEL="七牛云 AI 模型"
-else
-    PLUGIN_DIR="qiniu-storage-tools"
-    PLUGIN_NAME="qiniu-storage-tools"
-    PLUGIN_LABEL="七牛云存储工具"
 fi
 
 MANIFEST_FILE="$PLUGIN_DIR/manifest.yaml"
