@@ -1,0 +1,38 @@
+name: qiniu-ai-models
+author: qiniu
+icon: icon_s_en.svg
+created_at: '2025-12-04T00:00:00.000000000Z'
+description:
+  en_US: Official Qiniu Cloud AI inference plugin for Dify. Supports multiple LLM models including GPT-OSS, DeepSeek, Claude, GLM, Kimi, Qwen, and Grok series with advanced capabilities like agent thinking, tool calls, and streaming.
+  zh_Hans: 七牛云官方 AI 推理插件，为 Dify 提供多种大语言模型支持，包括 GPT-OSS、DeepSeek、Claude、GLM、Kimi、Qwen、Grok 等系列模型，支持智能体思考、工具调用和流式响应等高级功能。
+
+label:
+  en_US: Qiniu AI Models
+  zh_Hans: 七牛云 AI 模型
+meta:
+  arch:
+  - amd64
+  - arm64
+  runner:
+    entrypoint: main
+    language: python
+    version: '3.12'
+  version: 0.0.1
+plugins:
+  models:
+  - provider/qiniu_ai.yaml
+resource:
+  memory: 268435456
+  permission:
+    model:
+      llm: true
+      rerank: false
+      enabled: true
+      moderation: false
+      speech2text: false
+      text_embedding: false
+      tts: false
+    tool:
+      enabled: false
+type: plugin
+version: 0.2.0
