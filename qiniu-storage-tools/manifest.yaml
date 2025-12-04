@@ -1,0 +1,38 @@
+name: qiniu-storage-tools
+author: qiniu
+icon: icon_s_en.svg
+created_at: '2025-12-04T00:00:00.000000000Z'
+description:
+  en_US: Official Qiniu Cloud object storage tools plugin for Dify. Provides comprehensive file management capabilities including bucket listing, file upload, file listing with prefix filtering, and private file content retrieval via signed URLs.
+  zh_Hans: 七牛云官方对象存储工具插件，为 Dify 提供全面的文件管理功能，包括存储空间列表、文件上传、按前缀过滤的文件列表以及通过签名链接获取私有文件内容等功能。
+
+label:
+  en_US: Qiniu Storage Tools
+  zh_Hans: 七牛云存储工具
+meta:
+  arch:
+  - amd64
+  - arm64
+  runner:
+    entrypoint: main
+    language: python
+    version: '3.12'
+  version: 0.0.1
+plugins:
+  tools:
+  - provider/qiniu_tools.yaml
+resource:
+  memory: 268435456
+  permission:
+    model:
+      llm: false
+      rerank: false
+      enabled: false
+      moderation: false
+      speech2text: false
+      text_embedding: false
+      tts: false
+    tool:
+      enabled: true
+type: plugin
+version: 0.2.0
