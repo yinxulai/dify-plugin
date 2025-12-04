@@ -50,13 +50,32 @@ select_plugin() {
     echo ""
 }
 
+# 提示输入版本号（带当前版本提示）
+prompt_version() {
+    MANIFEST_FILE="$PLUGIN_DIR/manifest.yaml"
+    
+    # 检查 yq 是否安装
+    if ! command -v yq &> /dev/null; then
+        echo -e "${RED}错误: 未找到 yq 命令${NC}"
+        echo "请先安装 yq: brew install yq"
+        exit 1
+    fi
+    
+    # 获取当前版本
+    if [ -f "$MANIFEST_FILE" ]; then
+        CURRENT_VERSION=$(yq eval '.version' "$MANIFEST_FILE")
+        echo -e "${CYAN}当前版本: ${YELLOW}$CURRENT_VERSION${NC}"
+    fi
+    
+    echo -e "${CYAN}请输入新版本号 (格式: x.y.z):${NC}"
+    read -p "版本号: " VERSION
+}
+
 # 参数处理
 if [ $# -eq 0 ]; then
     # 无参数：交互式选择插件和输入版本
     select_plugin
-    
-    echo -e "${CYAN}请输入版本号 (格式: x.y.z):${NC}"
-    read -p "版本号: " VERSION
+    prompt_version
 elif [ $# -eq 1 ]; then
     # 一个参数：可能是版本号或插件名
     if [[ "$1" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
@@ -89,8 +108,7 @@ elif [ $# -eq 1 ]; then
             exit 1
         fi
         
-        echo -e "${CYAN}请输入版本号 (格式: x.y.z):${NC}"
-        read -p "版本号: " VERSION
+        prompt_version
     fi
 else
     # 两个参数：传统模式
@@ -165,14 +183,7 @@ if [[ -n $(git status -s) ]]; then
     fi
 fi
 
-# 检查 yq 是否安装
-if ! command -v yq &> /dev/null; then
-    echo -e "${RED}错误: 未找到 yq 命令${NC}"
-    echo "请先安装 yq: brew install yq"
-    exit 1
-fi
-
-# 获取当前版本
+# 获取当前版本并显示对比
 CURRENT_VERSION=$(yq eval '.version' "$MANIFEST_FILE")
 echo -e "当前版本: ${YELLOW}$CURRENT_VERSION${NC}"
 echo -e "新版本: ${GREEN}$VERSION${NC}"
