@@ -15,10 +15,16 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-# 可用插件列表
-declare -A PLUGINS
-PLUGINS[1]="ai-models|qiniu-ai-models|七牛云 AI 模型"
-PLUGINS[2]="storage-tools|qiniu-storage-tools|七牛云存储工具"
+# 可用插件列表（使用数组而不是关联数组以兼容 bash 3.x）
+PLUGIN_1_SHORT="ai-models"
+PLUGIN_1_FULL="qiniu-ai-models"
+PLUGIN_1_LABEL="七牛云 AI 模型"
+
+PLUGIN_2_SHORT="storage-tools"
+PLUGIN_2_FULL="qiniu-storage-tools"
+PLUGIN_2_LABEL="七牛云存储工具"
+
+PLUGIN_COUNT=2
 
 # 交互式选择插件
 select_plugin() {
@@ -27,17 +33,23 @@ select_plugin() {
     echo -e "${CYAN}========================================${NC}"
     echo ""
     
-    for i in "${!PLUGINS[@]}"; do
-        IFS='|' read -r short_name full_name label <<< "${PLUGINS[$i]}"
-        echo -e "  ${GREEN}[$i]${NC} $label ($full_name)"
-    done
+    echo -e "  ${GREEN}[1]${NC} $PLUGIN_1_LABEL ($PLUGIN_1_FULL)"
+    echo -e "  ${GREEN}[2]${NC} $PLUGIN_2_LABEL ($PLUGIN_2_FULL)"
     echo ""
     
     while true; do
-        read -p "请输入选项 [1-${#PLUGINS[@]}]: " choice
+        read -p "请输入选项 [1-${PLUGIN_COUNT}]: " choice
         
-        if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "${#PLUGINS[@]}" ]; then
-            IFS='|' read -r PLUGIN PLUGIN_NAME PLUGIN_LABEL <<< "${PLUGINS[$choice]}"
+        if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "$PLUGIN_COUNT" ]; then
+            if [ "$choice" -eq 1 ]; then
+                PLUGIN="$PLUGIN_1_SHORT"
+                PLUGIN_NAME="$PLUGIN_1_FULL"
+                PLUGIN_LABEL="$PLUGIN_1_LABEL"
+            elif [ "$choice" -eq 2 ]; then
+                PLUGIN="$PLUGIN_2_SHORT"
+                PLUGIN_NAME="$PLUGIN_2_FULL"
+                PLUGIN_LABEL="$PLUGIN_2_LABEL"
+            fi
             PLUGIN_DIR="$PLUGIN_NAME"
             break
         else
@@ -48,6 +60,23 @@ select_plugin() {
     echo ""
     echo -e "${GREEN}✓${NC} 已选择: $PLUGIN_LABEL"
     echo ""
+}
+
+# 根据短名称获取插件信息
+get_plugin_info() {
+    local short_name=$1
+    
+    if [ "$short_name" = "$PLUGIN_1_SHORT" ]; then
+        PLUGIN_NAME="$PLUGIN_1_FULL"
+        PLUGIN_LABEL="$PLUGIN_1_LABEL"
+        return 0
+    elif [ "$short_name" = "$PLUGIN_2_SHORT" ]; then
+        PLUGIN_NAME="$PLUGIN_2_FULL"
+        PLUGIN_LABEL="$PLUGIN_2_LABEL"
+        return 0
+    else
+        return 1
+    fi
 }
 
 # 提示输入版本号（带当前版本提示）
@@ -86,28 +115,15 @@ elif [ $# -eq 1 ]; then
         # 参数是插件名，交互式输入版本
         PLUGIN=$1
         # 验证插件名
-        PLUGIN_FOUND=false
-        for i in "${!PLUGINS[@]}"; do
-            IFS='|' read -r short_name full_name label <<< "${PLUGINS[$i]}"
-            if [ "$PLUGIN" = "$short_name" ]; then
-                PLUGIN_NAME="$full_name"
-                PLUGIN_DIR="$full_name"
-                PLUGIN_LABEL="$label"
-                PLUGIN_FOUND=true
-                break
-            fi
-        done
-        
-        if [ "$PLUGIN_FOUND" = false ]; then
+        if ! get_plugin_info "$PLUGIN"; then
             echo -e "${RED}错误: 无效的插件名 '$PLUGIN'${NC}"
             echo "可用的插件:"
-            for i in "${!PLUGINS[@]}"; do
-                IFS='|' read -r short_name full_name label <<< "${PLUGINS[$i]}"
-                echo "  - $short_name"
-            done
+            echo "  - $PLUGIN_1_SHORT"
+            echo "  - $PLUGIN_2_SHORT"
             exit 1
         fi
         
+        PLUGIN_DIR="$PLUGIN_NAME"
         prompt_version
     fi
 else
@@ -116,27 +132,15 @@ else
     VERSION=$2
     
     # 验证插件名并设置变量
-    PLUGIN_FOUND=false
-    for i in "${!PLUGINS[@]}"; do
-        IFS='|' read -r short_name full_name label <<< "${PLUGINS[$i]}"
-        if [ "$PLUGIN" = "$short_name" ]; then
-            PLUGIN_NAME="$full_name"
-            PLUGIN_DIR="$full_name"
-            PLUGIN_LABEL="$label"
-            PLUGIN_FOUND=true
-            break
-        fi
-    done
-    
-    if [ "$PLUGIN_FOUND" = false ]; then
+    if ! get_plugin_info "$PLUGIN"; then
         echo -e "${RED}错误: 无效的插件名 '$PLUGIN'${NC}"
         echo "可用的插件:"
-        for i in "${!PLUGINS[@]}"; do
-            IFS='|' read -r short_name full_name label <<< "${PLUGINS[$i]}"
-            echo "  - $short_name"
-        done
+        echo "  - $PLUGIN_1_SHORT"
+        echo "  - $PLUGIN_2_SHORT"
         exit 1
     fi
+    
+    PLUGIN_DIR="$PLUGIN_NAME"
 fi
 
 # 验证版本格式
