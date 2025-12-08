@@ -13,15 +13,17 @@ Official Qiniu Cloud AI inference plugin for Dify, providing access to multiple 
 
 ### 🤖 Supported AI Models
 
-This plugin supports the following advanced large language models:
+This plugin connects to Qiniu Cloud AI inference platform, supporting multiple mainstream large language models, including but not limited to:
 
-- **OpenAI OSS Series**: GPT-OSS-120b, GPT-OSS-20b
-- **DeepSeek Series**: DeepSeek-R1, DeepSeek-V3, DeepSeek-V3.1 (128k context)
-- **Claude Series**: Claude 3.5 Sonnet, Claude 3.7 Sonnet, Claude 4.0 Sonnet, Claude 4.5 Sonnet, Claude 4.0 Opus, Claude 4.1 Opus (200k context)
-- **GLM Series**: GLM-4.5, GLM-4.5-Air
-- **Kimi Series**: Kimi-K2
-- **Qwen Series**: Qwen-Turbo, Qwen3-32B, Qwen3-235B-A22B (128k context), Qwen3-Max-Preview (256k context)
-- **Grok Series**: Grok Code Fast 1 (256k context, code-optimized)
+- **DeepSeek Series**: DeepSeek-R1, DeepSeek-V3, and other inference-optimized models
+- **Claude Series**: Anthropic Claude 3.5/4.x series advanced models
+- **GLM Series**: Zhipu GLM-4.x series Chinese-optimized models
+- **Qwen Series**: Alibaba Qwen3 series models
+- **Gemini Series**: Google Gemini 2.x/3.x series models
+- **Kimi Series**: Moonshot Kimi-K2 and other long-context models
+- **Other Models**: Grok, Doubao, MiniMax, and more
+
+> 💡 **Note**: The model list is continuously updated. For the complete list, please check the Dify model provider configuration page or visit [Qiniu Cloud AI Platform](https://openai.qiniu.com/) for the latest supported models.
 
 ### ✨ Core Capabilities
 

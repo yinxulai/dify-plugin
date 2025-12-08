@@ -13,15 +13,17 @@
 
 ### 🤖 支持的 AI 模型
 
-本插件支持以下先进的 AI 大语言模型：
+本插件接入七牛云 AI 推理平台，支持多种主流大语言模型，包括但不限于：
 
-- **OpenAI 开源系列**：GPT-OSS-120b、GPT-OSS-20b
-- **DeepSeek 系列**：DeepSeek-R1、DeepSeek-V3、DeepSeek-V3.1（128k上下文）
-- **Claude 系列**：Claude 3.5 Sonnet、Claude 3.7 Sonnet、Claude 4.0 Sonnet、Claude 4.5 Sonnet、Claude 4.0 Opus、Claude 4.1 Opus（200k上下文）
-- **GLM 系列**：GLM-4.5、GLM-4.5-Air
-- **Kimi 系列**：Kimi-K2
-- **Qwen 系列**：Qwen-Turbo、Qwen3-32B、Qwen3-235B-A22B（128k上下文）、Qwen3-Max-Preview（256k上下文）
-- **Grok 系列**：Grok Code Fast 1（256k上下文，专为代码场景优化）
+- **DeepSeek 系列**：DeepSeek-R1、DeepSeek-V3 等推理优化模型
+- **Claude 系列**：Anthropic Claude 3.5/4.x 系列高级模型
+- **GLM 系列**：智谱 GLM-4.x 系列中文优化模型
+- **Qwen 系列**：阿里通义千问 Qwen3 系列模型
+- **Gemini 系列**：Google Gemini 2.x/3.x 系列模型
+- **Kimi 系列**：月之暗面 Kimi-K2 等长文本模型
+- **其他模型**：Grok、Doubao、MiniMax 等多种模型
+
+> 💡 **提示**：支持的模型列表会持续更新，完整列表请在 Dify 模型供应商配置页面查看，或访问[七牛云 AI 推理平台](https://openai.qiniu.com/)了解最新支持的模型。
 
 ### ✨ 核心能力
 

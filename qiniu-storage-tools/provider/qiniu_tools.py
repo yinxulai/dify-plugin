@@ -54,8 +54,9 @@ class QiniuProvider(ToolProvider):
                 if "401" in str(api_error) or "Unauthorized" in str(api_error):
                     raise ToolProviderCredentialValidationError("七牛云认证失败，请检查 Access Key 和 Secret Key 是否正确")
                 else:
-                    # 如果是网络错误等其他错误，我们假设认证信息是正确的
-                    logger.warning(f"七牛云认证验证时出现网络错误，跳过验证: {str(api_error)}")
+                    # 网络错误等其他错误也应该抛出异常，不能跳过验证
+                    logger.error(f"七牛云认证验证时出现错误: {str(api_error)}")
+                    raise ToolProviderCredentialValidationError(f"认证验证失败: {str(api_error)}")
                     
         except ToolProviderCredentialValidationError:
             raise

@@ -19,7 +19,7 @@
 https://github.com/qiniu/dify-plugin.git#qiniu-ai-models
 ```
 
-[查看详细文档 →](./qiniu-ai-models/README.md)
+[查看详细文档 →](./qiniu-ai-models/readme/README.md)
 
 ---
 
@@ -38,7 +38,7 @@ https://github.com/qiniu/dify-plugin.git#qiniu-ai-models
 https://github.com/qiniu/dify-plugin.git#qiniu-storage-tools
 ```
 
-[查看详细文档 →](./qiniu-storage-tools/README.md)
+[查看详细文档 →](./qiniu-storage-tools/readme/README.md)
 
 ---
 
@@ -67,19 +67,23 @@ https://github.com/qiniu/dify-plugin.git#qiniu-storage-tools
 
 ---
 
-## 📖 支持的模型列表
+## 📖 支持的模型
 
-| 模型系列 | 模型名称 | 上下文长度 | 特性 |
-|---------|---------|-----------|------|
-| **OpenAI 开源** | GPT-OSS-120b, GPT-OSS-20b | 标准 | 开源模型 |
-| **DeepSeek** | DeepSeek-R1, V3, V3.1 | 128k | 推理优化 |
-| **Claude** | 3.5/3.7/4.0/4.5 Sonnet, 4.0/4.1 Opus | 200k | 高级推理 |
-| **GLM** | GLM-4.5, GLM-4.5-Air | 标准 | 中文优化 |
-| **Kimi** | Kimi-K2 | 标准 | 多模态 |
-| **Qwen** | Turbo, 3-32B, 3-235B-A22B, 3-Max-Preview | 最高 256k | 阿里系列 |
-| **Grok** | Grok Code Fast 1 | 256k | 代码优化 |
+AI 模型插件接入七牛云 AI 推理平台，支持 **60+ 主流大语言模型**，包括：
 
-所有模型均支持：工具调用、流式响应、智能体模式
+| 模型系列 | 代表模型 | 特点 |
+|---------|---------|------|
+| **DeepSeek** | R1, V3, V3.1 | 推理优化、高性价比 |
+| **Claude** | 3.5/4.x Sonnet/Opus | 高级推理、长文本 |
+| **GLM** | GLM-4.5/4.6 | 中文优化 |
+| **Qwen** | Qwen3 系列 | 多模态、长上下文 |
+| **Gemini** | 2.x/3.x 系列 | Google 最新模型 |
+| **Kimi** | K2 | 超长文本处理 |
+| **其他** | Grok, Doubao, MiniMax 等 | 多样化选择 |
+
+**核心能力**：工具调用、流式响应、智能体模式、多工具调用
+
+> 💡 模型列表持续更新中，完整列表请在 Dify 配置页面查看或访问 [七牛云 AI 推理平台](https://openai.qiniu.com/)
 
 ---
 
@@ -118,8 +122,9 @@ cd dify-plugin
 # 安装 AI 模型插件依赖
 cd qiniu-ai-models
 pip install -r requirements.txt
+cd ..
 
-# 或安装存储工具插件依赖
+# 安装存储工具插件依赖
 cd qiniu-storage-tools
 pip install -r requirements.txt
 ```
@@ -127,14 +132,15 @@ pip install -r requirements.txt
 #### 调试插件
 
 1. 在 Dify 中获取远程调试地址和 Key
-   - 参考：[Dify 插件调试文档](https://docs.dify.ai/zh-hans/plugins/quick-start/debug-plugin)
+   - 参考：[Dify 插件调试文档](https://docs.dify.ai/plugins/quick-start/develop-plugins/debug-plugin)
 
 2. 在对应插件目录创建 `.env` 文件：
 
    ```bash
    INSTALL_METHOD=remote
-   REMOTE_INSTALL_URL=debug.dify.ai:5003
-   REMOTE_INSTALL_HOST=debug-plugin.dify.dev
+   REMOTE_INSTALL_PORT=5003
+   REMOTE_INSTALL_URL=debug.dify.ai
+   REMOTE_INSTALL_KEY=your-remote-key-here
    ```
 
 3. 启动插件：
@@ -145,12 +151,43 @@ pip install -r requirements.txt
 
 ---
 
+## 🚢 发布与部署
+
+### 自动发布到官方插件仓库
+
+本仓库已配置 GitHub Actions 自动发布工作流，当你推送代码到 `main` 或 `0.2.x` 分支时，会自动：
+
+1. 打包插件为 `.difypkg` 文件
+2. 推送到你 fork 的 `dify-plugins` 仓库
+3. 自动创建 PR 到官方 `langgenius/dify-plugins` 仓库
+
+**使用发布脚本（推荐）：**
+
+```bash
+# 交互式发布
+./scripts/release.sh
+
+# 指定插件和版本
+./scripts/release.sh ai-models 0.0.2
+./scripts/release.sh storage-tools 0.0.2
+```
+
+**配置要求：**
+- 已 fork `langgenius/dify-plugins` 仓库
+- 在本仓库设置 `PLUGIN_ACTION` Secret（GitHub Personal Access Token）
+- 确保 `manifest.yaml` 中的 `author` 和 `version` 字段正确
+
+详细配置指南请查看：[插件自动发布配置文档](./docs/AUTO_PUBLISH.md)
+
+---
+
 ## 📋 版本历史
 
 ### v0.2.0 (2025-12-04)
 - 🔄 重大更新：拆分为两个独立插件
 - ✅ 符合 Dify 官方插件规范
 - 📦 独立的 AI 模型插件和存储工具插件
+- 🤖 新增自动发布 PR 到官方仓库功能
 
 ### v0.1.3 (之前版本)
 - 包含 AI 模型和存储工具的完整版本
@@ -174,9 +211,37 @@ pip install -r requirements.txt
 
 1. Fork 此仓库
 2. 创建功能分支：`git checkout -b feature/your-feature`
-3. 提交更改：`git commit -m "feat: add feature"`
+3. 提交更改（遵循下方 Commit 规范）
 4. 推送分支：`git push origin feature/your-feature`
 5. 创建 Pull Request
+
+#### Commit 消息规范
+
+使用语义化的 commit 消息格式：
+
+```
+<type>: <description>
+
+[optional body]
+```
+
+**Type 类型：**
+- `feat`: 新增功能
+- `fix`: 修复问题
+- `docs`: 文档更新
+- `refactor`: 代码重构（不影响功能）
+- `chore`: 构建/工具链更新
+- `test`: 测试相关
+- `style`: 代码格式调整
+
+**示例：**
+```bash
+feat: add interactive mode to release script
+fix: remove tool-related logic from AI models plugin
+docs: update README with repository info
+refactor: split into two independent plugins
+chore(ai-models): release version 0.2.0
+```
 
 ---
 

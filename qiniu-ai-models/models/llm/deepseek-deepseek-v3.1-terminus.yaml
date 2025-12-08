@@ -1,0 +1,24 @@
+model: deepseek/deepseek-v3.1-terminus
+label:
+  zh_Hans: DeepSeek/DeepSeek-V3.1-Terminus
+  en_US: DeepSeek/DeepSeek-V3.1-Terminus
+model_type: llm
+features:
+- tool-call
+- stream-tool-call
+model_properties:
+  mode: chat
+  context_size: 128000
+parameter_rules:
+- name: temperature
+  use_template: temperature
+  default: 0.7
+  min: 0
+  max: 2
+- name: top_p
+  use_template: top_p
+  default: 0.6
+  type: float
+- name: presence_penalty
+  use_template: presence_penalty
+  default: 0.95
