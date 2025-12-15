@@ -201,6 +201,18 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
+# 生成 tag name
+TAG_NAME="$PLUGIN_NAME-v$VERSION"
+echo ""
+echo -e "${CYAN}========================================${NC}"
+echo -e "${CYAN}发布信息:${NC}"
+echo -e "${CYAN}========================================${NC}"
+echo -e "插件: ${YELLOW}$PLUGIN_LABEL${NC}"
+echo -e "版本: ${YELLOW}v$VERSION${NC}"
+echo -e "Tag:  ${YELLOW}$TAG_NAME${NC}"
+echo -e "${CYAN}========================================${NC}"
+echo ""
+
 # 更新 manifest.yaml 版本
 echo -e "${GREEN}[1/5]${NC} 更新 manifest.yaml 版本..."
 yq eval ".version = \"$VERSION\"" -i "$MANIFEST_FILE"
@@ -218,7 +230,6 @@ git commit -m "chore($PLUGIN): release version $VERSION"
 
 # 创建标签
 echo -e "${GREEN}[4/5]${NC} 创建 Git 标签..."
-TAG_NAME="$PLUGIN_NAME-v$VERSION"
 git tag -a "$TAG_NAME" -m "Release $PLUGIN_LABEL $VERSION"
 
 # 推送到远程
