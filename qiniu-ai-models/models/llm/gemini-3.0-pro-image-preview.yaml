@@ -1,0 +1,24 @@
+model: gemini-3.0-pro-image-preview
+label:
+  zh_Hans: Gemini 3.0 Pro Image Preview
+  en_US: Gemini 3.0 Pro Image Preview
+model_type: llm
+features:
+- tool-call
+- stream-tool-call
+model_properties:
+  mode: chat
+  context_size: 32768
+parameter_rules:
+- name: temperature
+  use_template: temperature
+  default: 0.7
+  min: 0
+  max: 2
+- name: top_p
+  use_template: top_p
+  default: 0.6
+  type: float
+- name: presence_penalty
+  use_template: presence_penalty
+  default: 0.95

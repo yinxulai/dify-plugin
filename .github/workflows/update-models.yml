@@ -1,0 +1,107 @@
+# .github/workflows/update-models.yml
+name: Update AI Models List
+
+on:
+  # 定时执行（每天 UTC 00:00，即北京时间 08:00）
+  schedule:
+    - cron: '0 0 * * *'
+  
+  # 手动触发
+  workflow_dispatch:
+  
+  # 推送到 main 分支时触发（可选，用于测试）
+  # push:
+  #   branches: [ main ]
+  #   paths:
+  #     - 'scripts/update_models.py'
+
+jobs:
+  update_models:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml requests
+      
+      - name: Run update script
+        id: update
+        run: |
+          python scripts/update_models.py
+        continue-on-error: true
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet qiniu-ai-models/models/llm/; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "没有检测到模型变更"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "检测到模型变更"
+          fi
+      
+      - name: Show changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          echo "变更的文件："
+          git diff --name-only qiniu-ai-models/models/llm/
+          echo ""
+          echo "详细变更："
+          git diff qiniu-ai-models/models/llm/
+      
+      - name: Configure Git
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Commit changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git add qiniu-ai-models/models/llm/
+          git commit -m "chore: 自动更新 AI 模型列表
+
+          - 由 GitHub Actions 自动更新
+          - 执行时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+          - 工作流: ${{ github.workflow }}
+          - 运行编号: ${{ github.run_number }}"
+      
+      - name: Push changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git push origin ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create summary
+        if: always()
+        run: |
+          echo "## 模型列表更新报告" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.check_changes.outputs.has_changes }}" = "true" ]; then
+            echo "✅ **检测到模型变更并已提交**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "变更的文件：" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            git diff --name-only HEAD~1 qiniu-ai-models/models/llm/ || echo "无法获取差异" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ **没有检测到模型变更**" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "执行时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY

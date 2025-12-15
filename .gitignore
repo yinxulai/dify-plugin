@@ -57,6 +57,3 @@ logs/
 *.tmp
 *.temp
 *.difypkg
-
-# Copilot
-.github/copilot-instructions.md

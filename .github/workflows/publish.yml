@@ -1,0 +1,165 @@
+# .github/workflows/auto-pr.yml
+name: Publish to Official Plugin Store
+
+on:
+  push:
+    branches: [ main, 0.2.x ]  # 触发条件：推送到 main 或 0.2.x 分支
+
+jobs:
+  publish_to_store:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        plugin:
+          - name: "qiniu-ai-models"
+            path: "qiniu-ai-models"
+            author: "qiniu"
+          - name: "qiniu-storage-tools"
+            path: "qiniu-storage-tools"
+            author: "qiniu"
+    
+    steps:
+      - name: Checkout plugin source code
+        uses: actions/checkout@v4
+
+      - name: Print working directory
+        run: |
+          pwd
+          ls -la
+
+      - name: Download Dify Plugin CLI tool
+        run: |
+          # 在 runner temp 中创建 bin 目录
+          mkdir -p $RUNNER_TEMP/bin
+          cd $RUNNER_TEMP/bin
+
+          # 下载 CLI 工具
+          wget https://github.com/langgenius/dify-plugin-daemon/releases/latest/download/dify-plugin-linux-amd64
+          chmod +x dify-plugin-linux-amd64
+
+          # 显示下载位置和文件
+          echo "CLI tool location:"
+          pwd
+          ls -la dify-plugin-linux-amd64
+
+      - name: Install yq for YAML processing
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Extract plugin metadata from manifest
+        id: get_basic_info
+        run: |
+          cd ${{ matrix.plugin.path }}
+          
+          PLUGIN_NAME=$(yq eval '.name' manifest.yaml)
+          echo "Plugin name: $PLUGIN_NAME"
+          echo "plugin_name=$PLUGIN_NAME" >> $GITHUB_OUTPUT
+
+          VERSION=$(yq eval '.version' manifest.yaml)
+          echo "Plugin version: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          AUTHOR=$(yq eval '.author' manifest.yaml)
+          echo "Plugin author: $AUTHOR"
+          echo "author=$AUTHOR" >> $GITHUB_OUTPUT
+
+      - name: Build plugin package (.difypkg)
+        id: package
+        run: |
+          # 准备构建目录
+          mkdir -p /tmp/plugin-build
+          cp -r ${{ matrix.plugin.path }}/* /tmp/plugin-build/
+          
+          # 清理缓存文件
+          cd /tmp/plugin-build
+          find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+          find . -name "*.pyc" -delete 2>/dev/null || true
+          
+          # 返回工作目录
+          cd $GITHUB_WORKSPACE
+          
+          # 使用变量生成包名
+          PACKAGE_NAME="${{ steps.get_basic_info.outputs.plugin_name }}-${{ steps.get_basic_info.outputs.version }}.difypkg"
+          
+          # 使用 CLI 打包
+          $RUNNER_TEMP/bin/dify-plugin-linux-amd64 plugin package /tmp/plugin-build -o "$PACKAGE_NAME"
+
+          # 显示打包结果
+          echo "Package result:"
+          ls -la "$PACKAGE_NAME"
+          echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+
+      - name: Checkout official plugin store repository
+        uses: actions/checkout@v4
+        with:
+          # 使用 author 变量指定仓库
+          repository: ${{ steps.get_basic_info.outputs.author }}/dify-plugins
+          path: dify-plugins
+          token: ${{ secrets.PLUGIN_ACTION }}
+          fetch-depth: 1 # 只获取最后一次提交以加快检出速度
+          persist-credentials: true # 为后续 git 操作保留凭据
+
+      - name: Commit and push to plugin store
+        run: |
+          # 调试信息
+          echo "Debug: Current directory $(pwd)"
+          PACKAGE_NAME="${{ steps.get_basic_info.outputs.plugin_name }}-${{ steps.get_basic_info.outputs.version }}.difypkg"
+          echo "Debug: Package name: $PACKAGE_NAME"
+          ls -la
+
+          # 将打包文件移动到目标目录
+          mkdir -p dify-plugins/${{ steps.get_basic_info.outputs.author }}/${{ steps.get_basic_info.outputs.plugin_name }}
+          mv "$PACKAGE_NAME" dify-plugins/${{ steps.get_basic_info.outputs.author }}/${{ steps.get_basic_info.outputs.plugin_name }}/
+
+          # 进入目标仓库目录
+          cd dify-plugins
+
+          # 配置 git
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # 确保我们在最新的 main 分支上
+          git fetch origin main
+          git checkout main
+          git pull origin main
+
+          # 创建并切换到新分支
+          BRANCH_NAME="bump-${{ steps.get_basic_info.outputs.plugin_name }}-plugin-${{ steps.get_basic_info.outputs.version }}"
+          git checkout -b "$BRANCH_NAME"
+
+          # 添加并提交更改
+          git add .
+          git status # 用于调试
+          git commit -m "bump ${{ steps.get_basic_info.outputs.plugin_name }} plugin to version ${{ steps.get_basic_info.outputs.version }}"
+
+          # 推送到远程（使用 force 以防分支之前存在）
+          git push -u origin "$BRANCH_NAME" --force
+
+          # 确认分支已推送并等待同步
+          git branch -a
+          echo "Waiting for branch to sync..."
+          sleep 10  # 等待 10 秒让分支同步
+
+      - name: Create PR to official plugin store
+        env:
+          GH_TOKEN: ${{ secrets.PLUGIN_ACTION }}
+        run: |
+          gh pr create \
+            --repo langgenius/dify-plugins \
+            --head "${{ steps.get_basic_info.outputs.author }}:bump-${{ steps.get_basic_info.outputs.plugin_name }}-plugin-${{ steps.get_basic_info.outputs.version }}" \
+            --base main \
+            --title "bump ${{ steps.get_basic_info.outputs.plugin_name }} plugin to version ${{ steps.get_basic_info.outputs.version }}" \
+            --body "bump ${{ steps.get_basic_info.outputs.plugin_name }} plugin package to version ${{ steps.get_basic_info.outputs.version }}
+
+            Changes:
+            - Updated plugin package file
+            
+            ---
+            This PR was automatically created by GitHub Actions." || echo "PR already exists or creation skipped."
+
+      - name: Print environment info
+        run: |
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          echo "Current directory contents:"
+          ls -R
