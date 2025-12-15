@@ -13,10 +13,10 @@ jobs:
       matrix:
         python-version: ["3.11", "3.12"]
         plugin:
-          - name: "qiniu-ai-models"
-            path: "qiniu-ai-models"
-          - name: "qiniu-storage-tools"
-            path: "qiniu-storage-tools"
+          - name: "ai-models"
+            path: "ai-models"
+          - name: "storage-tools"
+            path: "storage-tools"
 
     steps:
     - uses: actions/checkout@v4

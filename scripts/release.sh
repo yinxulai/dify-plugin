@@ -16,10 +16,10 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # 可用插件列表（使用数组而不是关联数组以兼容 bash 3.x）
-PLUGIN_1_NAME="qiniu-ai-models"
+PLUGIN_1_NAME="ai-models"
 PLUGIN_1_LABEL="七牛云 AI 模型"
 
-PLUGIN_2_NAME="qiniu-storage-tools"
+PLUGIN_2_NAME="storage-tools"
 PLUGIN_2_LABEL="七牛云存储工具"
 
 PLUGIN_COUNT=2

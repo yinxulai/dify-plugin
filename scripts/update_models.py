@@ -74,7 +74,7 @@ MARKET_API_URL = "https://openai.qiniu.com/v1/market/models"
 # 模型配置目录
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-MODELS_DIR = PROJECT_ROOT / "qiniu-ai-models" / "models" / "llm"
+MODELS_DIR = PROJECT_ROOT / "ai-models" / "models" / "llm"
 POSITION_FILE = MODELS_DIR / "_position.yaml"
 
 # CI 环境检测

@@ -4,7 +4,7 @@
 
 ## 📦 插件列表
 
-### 1. qiniu-ai-models - AI 模型插件
+### 1. ai-models - AI 模型插件
 
 接入七牛云 AI 推理平台，支持多种主流大语言模型。
 
@@ -18,11 +18,11 @@
 https://github.com/qiniu/dify-plugin
 ```
 
-[查看详细文档 →](./qiniu-ai-models/readme/README.md)
+[查看详细文档 →](./ai-models/readme/README.md)
 
 ---
 
-### 2. qiniu-storage-tools - 存储工具插件
+### 2. storage-tools - 存储工具插件
 
 提供完整的七牛云对象存储管理功能。
 
@@ -37,7 +37,7 @@ https://github.com/qiniu/dify-plugin
 https://github.com/qiniu/dify-plugin
 ```
 
-[查看详细文档 →](./qiniu-storage-tools/readme/README.md)
+[查看详细文档 →](./storage-tools/readme/README.md)
 
 ---
 
@@ -71,7 +71,7 @@ https://github.com/qiniu/dify-plugin
 ### 项目结构
 ```
 dify-plugin/
-├── qiniu-ai-models/          # AI 模型插件
+├── ai-models/          # AI 模型插件
 │   ├── manifest.yaml
 │   ├── main.py
 │   ├── requirements.txt
@@ -79,7 +79,7 @@ dify-plugin/
 │   ├── models/llm/
 │   └── provider/
 │
-├── qiniu-storage-tools/      # 存储工具插件
+├── storage-tools/      # 存储工具插件
 │   ├── manifest.yaml
 │   ├── main.py
 │   ├── requirements.txt
@@ -99,12 +99,12 @@ git clone https://github.com/qiniu/dify-plugin.git
 cd dify-plugin
 
 # 安装 AI 模型插件依赖
-cd qiniu-ai-models
+cd ai-models
 pip install -r requirements.txt
 cd ..
 
 # 安装存储工具插件依赖
-cd qiniu-storage-tools
+cd storage-tools
 pip install -r requirements.txt
 ```
 

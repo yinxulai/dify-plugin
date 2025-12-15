@@ -32,7 +32,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           
           # 确定插件路径和作者
-          if [ "$PLUGIN_NAME" = "qiniu-ai-models" ] || [ "$PLUGIN_NAME" = "qiniu-storage-tools" ]; then
+          if [ "$PLUGIN_NAME" = "ai-models" ] || [ "$PLUGIN_NAME" = "storage-tools" ]; then
             echo "plugin_path=$PLUGIN_NAME" >> $GITHUB_OUTPUT
             echo "author=qiniu" >> $GITHUB_OUTPUT
           else

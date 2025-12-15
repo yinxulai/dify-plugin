@@ -45,7 +45,7 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          if git diff --quiet qiniu-ai-models/models/llm/; then
+          if git diff --quiet ai-models/models/llm/; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
             echo "没有检测到模型变更"
           else
@@ -57,10 +57,10 @@ jobs:
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
           echo "变更的文件："
-          git diff --name-only qiniu-ai-models/models/llm/
+          git diff --name-only ai-models/models/llm/
           echo ""
           echo "详细变更："
-          git diff qiniu-ai-models/models/llm/
+          git diff ai-models/models/llm/
       
       - name: Configure Git
         if: steps.check_changes.outputs.has_changes == 'true'
@@ -71,7 +71,7 @@ jobs:
       - name: Commit changes
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
-          git add qiniu-ai-models/models/llm/
+          git add ai-models/models/llm/
           git commit -m "chore: 自动更新 AI 模型列表
 
           - 由 GitHub Actions 自动更新
