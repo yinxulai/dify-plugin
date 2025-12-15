@@ -16,7 +16,7 @@
 
 **安装地址：**
 ```
-https://github.com/qiniu/dify-plugin#qiniu-ai-models
+https://github.com/qiniu/dify-plugin
 ```
 
 [查看详细文档 →](./qiniu-ai-models/readme/README.md)
@@ -35,7 +35,7 @@ https://github.com/qiniu/dify-plugin#qiniu-ai-models
 
 **安装地址：**
 ```
-https://github.com/qiniu/dify-plugin#qiniu-storage-tools
+https://github.com/qiniu/dify-plugin
 ```
 
 [查看详细文档 →](./qiniu-storage-tools/readme/README.md)
