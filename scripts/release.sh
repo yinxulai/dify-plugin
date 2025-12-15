@@ -16,12 +16,10 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # 可用插件列表（使用数组而不是关联数组以兼容 bash 3.x）
-PLUGIN_1_SHORT="ai-models-provider"
-PLUGIN_1_FULL="qiniu-ai-models"
+PLUGIN_1_NAME="qiniu-ai-models"
 PLUGIN_1_LABEL="七牛云 AI 模型"
 
-PLUGIN_2_SHORT="storage-tools"
-PLUGIN_2_FULL="qiniu-storage-tools"
+PLUGIN_2_NAME="qiniu-storage-tools"
 PLUGIN_2_LABEL="七牛云存储工具"
 
 PLUGIN_COUNT=2
@@ -33,8 +31,8 @@ select_plugin() {
     echo -e "${CYAN}========================================${NC}"
     echo ""
     
-    echo -e "  ${GREEN}[1]${NC} $PLUGIN_1_LABEL ($PLUGIN_1_FULL)"
-    echo -e "  ${GREEN}[2]${NC} $PLUGIN_2_LABEL ($PLUGIN_2_FULL)"
+    echo -e "  ${GREEN}[1]${NC} $PLUGIN_1_LABEL ($PLUGIN_1_NAME)"
+    echo -e "  ${GREEN}[2]${NC} $PLUGIN_2_LABEL ($PLUGIN_2_NAME)"
     echo ""
     
     while true; do
@@ -42,12 +40,10 @@ select_plugin() {
         
         if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "$PLUGIN_COUNT" ]; then
             if [ "$choice" -eq 1 ]; then
-                PLUGIN="$PLUGIN_1_SHORT"
-                PLUGIN_NAME="$PLUGIN_1_FULL"
+                PLUGIN_NAME="$PLUGIN_1_NAME"
                 PLUGIN_LABEL="$PLUGIN_1_LABEL"
             elif [ "$choice" -eq 2 ]; then
-                PLUGIN="$PLUGIN_2_SHORT"
-                PLUGIN_NAME="$PLUGIN_2_FULL"
+                PLUGIN_NAME="$PLUGIN_2_NAME"
                 PLUGIN_LABEL="$PLUGIN_2_LABEL"
             fi
             PLUGIN_DIR="$PLUGIN_NAME"
@@ -62,16 +58,14 @@ select_plugin() {
     echo ""
 }
 
-# 根据短名称获取插件信息
+# 根据插件名获取插件信息
 get_plugin_info() {
-    local short_name=$1
+    local plugin_name=$1
     
-    if [ "$short_name" = "$PLUGIN_1_SHORT" ]; then
-        PLUGIN_NAME="$PLUGIN_1_FULL"
+    if [ "$plugin_name" = "$PLUGIN_1_NAME" ]; then
         PLUGIN_LABEL="$PLUGIN_1_LABEL"
         return 0
-    elif [ "$short_name" = "$PLUGIN_2_SHORT" ]; then
-        PLUGIN_NAME="$PLUGIN_2_FULL"
+    elif [ "$plugin_name" = "$PLUGIN_2_NAME" ]; then
         PLUGIN_LABEL="$PLUGIN_2_LABEL"
         return 0
     else
@@ -113,13 +107,13 @@ elif [ $# -eq 1 ]; then
         select_plugin
     else
         # 参数是插件名，交互式输入版本
-        PLUGIN=$1
+        PLUGIN_NAME=$1
         # 验证插件名
-        if ! get_plugin_info "$PLUGIN"; then
-            echo -e "${RED}错误: 无效的插件名 '$PLUGIN'${NC}"
+        if ! get_plugin_info "$PLUGIN_NAME"; then
+            echo -e "${RED}错误: 无效的插件名 '$PLUGIN_NAME'${NC}"
             echo "可用的插件:"
-            echo "  - $PLUGIN_1_SHORT"
-            echo "  - $PLUGIN_2_SHORT"
+            echo "  - $PLUGIN_1_NAME"
+            echo "  - $PLUGIN_2_NAME"
             exit 1
         fi
         
@@ -128,15 +122,15 @@ elif [ $# -eq 1 ]; then
     fi
 else
     # 两个参数：传统模式
-    PLUGIN=$1
+    PLUGIN_NAME=$1
     VERSION=$2
     
     # 验证插件名并设置变量
-    if ! get_plugin_info "$PLUGIN"; then
-        echo -e "${RED}错误: 无效的插件名 '$PLUGIN'${NC}"
+    if ! get_plugin_info "$PLUGIN_NAME"; then
+        echo -e "${RED}错误: 无效的插件名 '$PLUGIN_NAME'${NC}"
         echo "可用的插件:"
-        echo "  - $PLUGIN_1_SHORT"
-        echo "  - $PLUGIN_2_SHORT"
+        echo "  - $PLUGIN_1_NAME"
+        echo "  - $PLUGIN_2_NAME"
         exit 1
     fi
     
@@ -201,8 +195,8 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
-# 生成 tag name (使用短名称)
-TAG_NAME="$PLUGIN-v$VERSION"
+# 生成 tag name (直接使用完整插件名)
+TAG_NAME="$PLUGIN_NAME-v$VERSION"
 echo ""
 echo -e "${CYAN}========================================${NC}"
 echo -e "${CYAN}发布信息:${NC}"
