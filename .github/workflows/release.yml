@@ -1,8 +1,10 @@
 name: Build and Release Plugin
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'ai-models-provider-v*'
+      - 'storage-tools-v*'
 
 jobs:
   build:
@@ -12,11 +14,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Parse plugin info from release tag
+    - name: Parse plugin info from tag
       id: parse_tag
       run: |
-        TAG_NAME="${{ github.event.release.tag_name }}"
-        echo "Processing release tag: $TAG_NAME"
+        TAG_NAME="${GITHUB_REF#refs/tags/}"
+        echo "Processing tag: $TAG_NAME"
         
         # 解析插件名称和版本 (格式: plugin-name-vX.Y.Z 或 plugin-name-vX.Y.Z-beta.N)
         # 使用贪婪匹配提取插件名称（去掉 -vX.Y.Z... 部分）
@@ -85,9 +87,16 @@ jobs:
         echo "Building package: $PACKAGE_NAME"
         /tmp/dify-cli/dify-plugin-linux-amd64 plugin package -o "$PACKAGE_NAME" /tmp/plugin-build
         
-    - name: Upload package to release
+    - name: Create GitHub Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         PACKAGE_NAME="${{ steps.parse_tag.outputs.plugin_name }}-${{ steps.parse_tag.outputs.version }}.difypkg"
-        gh release upload ${{ github.ref_name }} "$PACKAGE_NAME" --clobber
+        TAG_NAME="${GITHUB_REF#refs/tags/}"
+        
+        # 创建 release
+        gh release create "$TAG_NAME" \
+          "$PACKAGE_NAME" \
+          --title "${{ steps.parse_tag.outputs.plugin_name }} v${{ steps.parse_tag.outputs.version }}" \
+          --notes "Release ${{ steps.parse_tag.outputs.plugin_name }} version ${{ steps.parse_tag.outputs.version }}" \
+          --repo ${{ github.repository }}
