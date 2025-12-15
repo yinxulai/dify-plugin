@@ -47,7 +47,7 @@ All models support the following advanced features:
 #### Method 1: Install from GitHub Repository (Recommended)
 
 ```
-https://github.com/qiniu/dify-plugin.git#qiniu-ai-models
+https://github.com/qiniu/dify-plugin
 ```
 
 #### Method 2: Install from Official Marketplace

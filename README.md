@@ -6,17 +6,16 @@
 
 ### 1. qiniu-ai-models - AI 模型插件
 
-提供多种先进的大语言模型支持，包括 DeepSeek、Claude、GLM、Kimi、Qwen、Grok 等系列模型。
+接入七牛云 AI 推理平台，支持多种主流大语言模型。
 
 **主要功能：**
-- 支持 15+ 先进 AI 模型
-- 智能体思考、工具调用
-- 流式响应和多工具调用
-- 最高 256k 上下文支持
+- 工具调用和智能体模式
+- 流式响应
+- 多工具并行调用
 
 **安装地址：**
 ```
-https://github.com/qiniu/dify-plugin.git#qiniu-ai-models
+https://github.com/qiniu/dify-plugin
 ```
 
 [查看详细文档 →](./qiniu-ai-models/readme/README.md)
@@ -35,7 +34,7 @@ https://github.com/qiniu/dify-plugin.git#qiniu-ai-models
 
 **安装地址：**
 ```
-https://github.com/qiniu/dify-plugin.git#qiniu-storage-tools
+https://github.com/qiniu/dify-plugin
 ```
 
 [查看详细文档 →](./qiniu-storage-tools/readme/README.md)
@@ -67,27 +66,7 @@ https://github.com/qiniu/dify-plugin.git#qiniu-storage-tools
 
 ---
 
-## 📖 支持的模型
-
-AI 模型插件接入七牛云 AI 推理平台，支持 **60+ 主流大语言模型**，包括：
-
-| 模型系列 | 代表模型 | 特点 |
-|---------|---------|------|
-| **DeepSeek** | R1, V3, V3.1 | 推理优化、高性价比 |
-| **Claude** | 3.5/4.x Sonnet/Opus | 高级推理、长文本 |
-| **GLM** | GLM-4.5/4.6 | 中文优化 |
-| **Qwen** | Qwen3 系列 | 多模态、长上下文 |
-| **Gemini** | 2.x/3.x 系列 | Google 最新模型 |
-| **Kimi** | K2 | 超长文本处理 |
-| **其他** | Grok, Doubao, MiniMax 等 | 多样化选择 |
-
-**核心能力**：工具调用、流式响应、智能体模式、多工具调用
-
-> 💡 模型列表持续更新中，完整列表请在 Dify 配置页面查看或访问 [七牛云 AI 推理平台](https://openai.qiniu.com/)
-
----
-
-## 🛠️ 开发说明
+## ️ 开发说明
 
 ### 项目结构
 ```

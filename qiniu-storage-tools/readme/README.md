@@ -66,7 +66,7 @@ Get access links or content for private files.
 #### Method 1: Install from GitHub Repository (Recommended)
 
 ```
-https://github.com/qiniu/dify-plugin.git#qiniu-storage-tools
+https://github.com/qiniu/dify-plugin
 ```
 
 #### Method 2: Install from Official Marketplace
