@@ -93,7 +93,7 @@ https://github.com/qiniu/dify-plugin
 
 如需七牛云对象存储功能，请同时安装：
 
-- **qiniu-storage-tools**：七牛云存储工具插件
+- **storage-tools**：七牛云存储工具插件
 
 ## 支持与反馈
 
