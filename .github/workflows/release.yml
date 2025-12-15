@@ -7,19 +7,34 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        plugin:
-          - name: "qiniu-ai-models"
-            path: "qiniu-ai-models"
-            filename: "qiniu-ai-models"
-          - name: "qiniu-storage-tools"
-            path: "qiniu-storage-tools"
-            filename: "qiniu-storage-tools"
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      
+    - name: Parse plugin info from release tag
+      id: parse_tag
+      run: |
+        TAG_NAME="${{ github.event.release.tag_name }}"
+        echo "Processing release tag: $TAG_NAME"
+        
+        # 解析插件名称和版本 (格式: plugin-name-vX.Y.Z 或 plugin-name-vX.Y.Z-beta.N)
+        # 使用贪婪匹配提取插件名称（去掉 -vX.Y.Z... 部分）
+        PLUGIN_NAME=$(echo "$TAG_NAME" | sed -E 's/-v[0-9]+\.[0-9]+\.[0-9]+.*//')
+        # 提取完整版本号（包括预发布标识符）
+        VERSION=$(echo "$TAG_NAME" | sed -E 's/^.*-v//')
+        
+        echo "Plugin name: $PLUGIN_NAME"
+        echo "Version: $VERSION"
+        
+        echo "plugin_name=$PLUGIN_NAME" >> $GITHUB_OUTPUT
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        
+        # 验证插件名称
+        if [ "$PLUGIN_NAME" != "qiniu-ai-models" ] && [ "$PLUGIN_NAME" != "qiniu-storage-tools" ]; then
+          echo "Error: Unknown plugin name: $PLUGIN_NAME"
+          exit 1
+        fi
       
     - name: Install yq for YAML processing
       run: |
@@ -32,13 +47,13 @@ jobs:
         curl -L -o /tmp/dify-cli/dify-plugin-linux-amd64 https://github.com/langgenius/dify-plugin-daemon/releases/download/0.2.0/dify-plugin-linux-amd64
         chmod +x /tmp/dify-cli/dify-plugin-linux-amd64
         
-    - name: Prepare plugin files for ${{ matrix.plugin.name }}
+    - name: Prepare plugin files
       run: |
         mkdir -p /tmp/plugin-build
         # 复制插件目录到构建目录
-        cp -r ${{ matrix.plugin.path }}/* /tmp/plugin-build/
+        cp -r ${{ steps.parse_tag.outputs.plugin_name }}/* /tmp/plugin-build/
 
-    - name: Clean build directory for ${{ matrix.plugin.name }}
+    - name: Clean build directory
       run: |
         cd /tmp/plugin-build
         
@@ -49,24 +64,30 @@ jobs:
         echo "📦 Plugin files:"
         ls -la
 
-    - name: Extract version from manifest
-      id: get_version
+    - name: Verify version matches tag
       run: |
-        VERSION=$(yq eval '.version' /tmp/plugin-build/manifest.yaml)
-        PACKAGE_NAME="${{ matrix.plugin.filename }}-${VERSION}.difypkg"
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-        echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
-        echo "Extracted version: $VERSION"
-        echo "Package name: $PACKAGE_NAME"
+        MANIFEST_VERSION=$(yq eval '.version' /tmp/plugin-build/manifest.yaml)
+        TAG_VERSION="${{ steps.parse_tag.outputs.version }}"
+        
+        echo "Manifest version: $MANIFEST_VERSION"
+        echo "Tag version: $TAG_VERSION"
+        
+        if [ "$MANIFEST_VERSION" != "$TAG_VERSION" ]; then
+          echo "Error: Version mismatch!"
+          echo "  manifest.yaml version: $MANIFEST_VERSION"
+          echo "  Release tag version: $TAG_VERSION"
+          exit 1
+        fi
 
     - name: Package plugin
       run: |
-        PACKAGE_NAME="${{ steps.get_version.outputs.package_name }}"
+        PACKAGE_NAME="${{ steps.parse_tag.outputs.plugin_name }}-${{ steps.parse_tag.outputs.version }}.difypkg"
+        echo "Building package: $PACKAGE_NAME"
         /tmp/dify-cli/dify-plugin-linux-amd64 plugin package -o "$PACKAGE_NAME" /tmp/plugin-build
         
     - name: Upload package to release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        PACKAGE_NAME="${{ steps.get_version.outputs.package_name }}"
+        PACKAGE_NAME="${{ steps.parse_tag.outputs.plugin_name }}-${{ steps.parse_tag.outputs.version }}.difypkg"
         gh release upload ${{ github.ref_name }} "$PACKAGE_NAME" --clobber
