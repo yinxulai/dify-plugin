@@ -65,11 +65,8 @@ jobs:
         /tmp/dify-cli/dify-plugin-linux-amd64 plugin package -o "$PACKAGE_NAME" /tmp/plugin-build
         
     - name: Upload package to release
-      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_name: ${{ steps.get_version.outputs.package_name }}
-        asset_path: ./${{ steps.get_version.outputs.package_name }}
-        asset_content_type: application/octet-stream
+      run: |
+        PACKAGE_NAME="${{ steps.get_version.outputs.package_name }}"
+        gh release upload ${{ github.ref_name }} "$PACKAGE_NAME" --clobber

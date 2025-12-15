@@ -9,6 +9,11 @@ description:
 label:
   en_US: Qiniu AI Models
   zh_Hans: 七牛云 AI 模型
+# ==============================================================================
+# 版本说明 / VERSION NOTES:
+# meta.version (0.0.1) - 插件元数据格式版本，永不修改 / Plugin metadata format version, NEVER CHANGE
+# version (0.2.0) - 插件实际版本号，发布时更新 / Actual plugin version, UPDATE ON RELEASE
+# ==============================================================================
 meta:
   arch:
   - amd64
