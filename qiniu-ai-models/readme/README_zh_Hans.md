@@ -47,7 +47,7 @@
 #### 方式 1: 从 GitHub 仓库安装（推荐）
 
 ```
-https://github.com/qiniu/dify-plugin.git#qiniu-ai-models
+https://github.com/qiniu/dify-plugin
 ```
 
 #### 方式 2: 从官方市场安装
