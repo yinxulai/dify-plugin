@@ -2,8 +2,12 @@
 name: Publish to Official Plugin Store
 
 on:
-  release:
-    types: [published]  # 仅在 release 发布时触发
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Release tag name (e.g., ai-models-provider-v0.2.0)'
+        required: true
+        type: string
 
 jobs:
   publish_to_store:
@@ -13,11 +17,11 @@ jobs:
       - name: Checkout plugin source code
         uses: actions/checkout@v4
 
-      - name: Parse plugin info from release tag
+      - name: Parse plugin info from tag
         id: parse_tag
         run: |
-          TAG_NAME="${{ github.event.release.tag_name }}"
-          echo "Processing release tag: $TAG_NAME"
+          TAG_NAME="${{ inputs.tag_name }}"
+          echo "Processing tag: $TAG_NAME"
           
           # 解析插件名称和版本 (格式: plugin-name-vX.Y.Z 或 plugin-name-vX.Y.Z-beta.N)
           # 使用贪婪匹配提取插件名称（去掉 -vX.Y.Z... 部分）
@@ -45,8 +49,8 @@ jobs:
           PACKAGE_NAME="${{ steps.parse_tag.outputs.plugin_name }}-${{ steps.parse_tag.outputs.version }}.difypkg"
           echo "Downloading package: $PACKAGE_NAME"
           
-          # 从当前 release 下载打包文件
-          gh release download ${{ github.event.release.tag_name }} \
+          # 从 release 下载打包文件
+          gh release download ${{ inputs.tag_name }} \
             --pattern "$PACKAGE_NAME" \
             --repo ${{ github.repository }}
           
