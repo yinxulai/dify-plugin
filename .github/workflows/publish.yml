@@ -19,26 +19,32 @@ jobs:
           TAG_NAME="${{ github.event.release.tag_name }}"
           echo "Processing release tag: $TAG_NAME"
           
-          # 解析插件名称和版本 (格式: plugin-name-vX.Y.Z 或 plugin-name-vX.Y.Z-beta.N)
-          # 使用贪婪匹配提取插件名称（去掉 -vX.Y.Z... 部分）
-          PLUGIN_NAME=$(echo "$TAG_NAME" | sed -E 's/-v[0-9]+\.[0-9]+\.[0-9]+.*//')
+          # 解析插件名称和版本 (格式: plugin-short-name-vX.Y.Z 或 plugin-short-name-vX.Y.Z-beta.N)
+          # 使用贪婪匹配提取插件短名称（去掉 -vX.Y.Z... 部分）
+          PLUGIN_SHORT=$(echo "$TAG_NAME" | sed -E 's/-v[0-9]+\.[0-9]+\.[0-9]+.*//')
           # 提取完整版本号（包括预发布标识符）
           VERSION=$(echo "$TAG_NAME" | sed -E 's/^.*-v//')
           
-          echo "Plugin name: $PLUGIN_NAME"
+          # 根据短名称确定完整插件名称
+          if [ "$PLUGIN_SHORT" = "ai-models" ]; then
+            PLUGIN_NAME="qiniu-ai-models"
+          elif [ "$PLUGIN_SHORT" = "storage-tools" ]; then
+            PLUGIN_NAME="qiniu-storage-tools"
+          else
+            echo "Error: Unknown plugin short name: $PLUGIN_SHORT"
+            exit 1
+          fi
+          
+          echo "Plugin short name: $PLUGIN_SHORT"
+          echo "Plugin full name: $PLUGIN_NAME"
           echo "Version: $VERSION"
           
           echo "plugin_name=$PLUGIN_NAME" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           
           # 确定插件路径和作者
-          if [ "$PLUGIN_NAME" = "qiniu-ai-models" ] || [ "$PLUGIN_NAME" = "qiniu-storage-tools" ]; then
-            echo "plugin_path=$PLUGIN_NAME" >> $GITHUB_OUTPUT
-            echo "author=qiniu" >> $GITHUB_OUTPUT
-          else
-            echo "Error: Unknown plugin name: $PLUGIN_NAME"
-            exit 1
-          fi
+          echo "plugin_path=$PLUGIN_NAME" >> $GITHUB_OUTPUT
+          echo "author=qiniu" >> $GITHUB_OUTPUT
 
       - name: Download plugin package from release
         run: |

@@ -201,8 +201,8 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
-# 生成 tag name
-TAG_NAME="$PLUGIN_NAME-v$VERSION"
+# 生成 tag name (使用短名称)
+TAG_NAME="$PLUGIN-v$VERSION"
 echo ""
 echo -e "${CYAN}========================================${NC}"
 echo -e "${CYAN}发布信息:${NC}"
