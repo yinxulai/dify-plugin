@@ -1,9 +1,9 @@
-# .github/workflows/auto-pr.yml
+# .github/workflows/publish.yml
 name: Publish to Official Plugin Store
 
 on:
-  push:
-    branches: [ main, 0.2.x ]  # 触发条件：推送到 main 或 0.2.x 分支
+  release:
+    types: [published]  # 仅在 release 发布时触发
 
 jobs:
   publish_to_store:
