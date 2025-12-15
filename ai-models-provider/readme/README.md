@@ -4,7 +4,7 @@ Official Qiniu Cloud AI inference plugin for Dify, providing access to multiple 
 
 ## 📦 Plugin Information
 
-- **Plugin Name**: qiniu-ai-models
+- **Plugin Name**: ai-models-provider
 - **Author**: Qiniu Cloud
 - **Version**: 0.2.0
 - **License**: MIT License

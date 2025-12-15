@@ -4,7 +4,7 @@
 
 ## 📦 插件信息
 
-- **插件名称**：qiniu-ai-models
+- **插件名称**：ai-models-provider
 - **作者**：七牛云 (Qiniu)
 - **版本**：0.2.0
 - **许可证**：MIT License
