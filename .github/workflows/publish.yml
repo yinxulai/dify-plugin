@@ -2,6 +2,12 @@
 name: Publish to Official Plugin Store
 
 on:
+  workflow_call:
+    inputs:
+      tag_name:
+        description: 'Release tag name (e.g., ai-models-provider-v0.2.0)'
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       tag_name:
