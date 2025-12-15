@@ -25,8 +25,7 @@ jobs:
         VERSION=$(echo "$TAG_NAME" | sed -E 's/^.*-v//')
         
         # 根据短名称确定完整插件名称
-        if [ "$PLUGIN_SHORT" = "ai-models" ]; then
-          PLUGIN_NAME="qiniu-ai-models"
+          if [ "$PLUGIN_SHORT" = "ai-models-provider" ]; then
         elif [ "$PLUGIN_SHORT" = "storage-tools" ]; then
           PLUGIN_NAME="qiniu-storage-tools"
         else
