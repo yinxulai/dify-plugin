@@ -90,7 +90,7 @@ prompt_version() {
         echo -e "${CYAN}当前版本: ${YELLOW}$CURRENT_VERSION${NC}"
     fi
     
-    echo -e "${CYAN}请输入新版本号 (格式: x.y.z 或 x.y.z-beta.n):${NC}"
+    echo -e "${CYAN}请输入新版本号 (格式: x.y.z):${NC}"
     read -p "版本号: " VERSION
 }
 
@@ -138,9 +138,9 @@ else
 fi
 
 # 验证版本格式
-if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+(\.[0-9]+)?)?$ ]]; then
+if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo -e "${RED}错误: 无效的版本格式 '$VERSION'${NC}"
-    echo "版本格式应为: x.y.z 或 x.y.z-beta.n (例如: 0.2.1 或 0.2.0-beta.1)"
+    echo "版本格式应为: x.y.z (例如: 0.2.1)"
     exit 1
 fi
 

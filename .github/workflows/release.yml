@@ -69,17 +69,13 @@ jobs:
         MANIFEST_VERSION=$(yq eval '.version' /tmp/plugin-build/manifest.yaml)
         TAG_VERSION="${{ steps.parse_tag.outputs.version }}"
         
-        # Extract base version from tag (remove pre-release suffix if exists)
-        BASE_TAG_VERSION=$(echo "$TAG_VERSION" | sed -E 's/-.*$//')
-        
         echo "Manifest version: $MANIFEST_VERSION"
         echo "Tag version: $TAG_VERSION"
-        echo "Base tag version: $BASE_TAG_VERSION"
         
-        if [ "$MANIFEST_VERSION" != "$BASE_TAG_VERSION" ]; then
+        if [ "$MANIFEST_VERSION" != "$TAG_VERSION" ]; then
           echo "Error: Version mismatch!"
           echo "  manifest.yaml version: $MANIFEST_VERSION"
-          echo "  Expected version (from tag): $BASE_TAG_VERSION"
+          echo "  Release tag version: $TAG_VERSION"
           exit 1
         fi
 
