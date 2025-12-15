@@ -13,8 +13,8 @@ jobs:
       matrix:
         python-version: ["3.11", "3.12"]
         plugin:
-          - name: "ai-models"
-            path: "ai-models"
+          - name: "ai-models-provider"
+            path: "ai-models-provider"
           - name: "storage-tools"
             path: "storage-tools"
 
