@@ -6,7 +6,7 @@
 
 ### 1. qiniu-ai-models - AI 模型插件
 
-提供多种先进的大语言模型支持，包括 DeepSeek、Claude、GLM、Kimi、Qwen、Grok 等系列模型。
+接入七牛云 AI 推理平台，支持多种主流大语言模型。
 
 **主要功能：**
 - 工具调用和智能体模式
