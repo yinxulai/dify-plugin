@@ -4,8 +4,8 @@
 
 本仓库包含**两个独立的 Dify 插件**，它们永远不应该合并：
 
-- **qiniu-ai-models/**: AI 模型提供商插件（通过七牛云 API 支持 60+ LLM 模型）
-- **qiniu-storage-tools/**: 对象存储工具插件（文件上传/下载、存储桶管理）
+- **ai-models-provider/**: AI 模型提供商插件（通过七牛云 API 支持 60+ LLM 模型）
+- **storage-tools/**: 对象存储工具插件（文件上传/下载、存储桶管理）
 
 每个插件都是独立的 Python 项目，拥有自己的 `manifest.yaml`、`main.py` 和 `requirements.txt`。
 
@@ -21,7 +21,7 @@ version: 0.2.0    # ✅ 发布时更新此字段 - 插件实际版本号
 ### 模型配置（AI 模型插件）
 - 模型从 API 自动生成：`scripts/update_models.py`
 - 数据源：`https://openai.qiniu.com/v1/market/models`
-- 文件位置：`qiniu-ai-models/models/llm/*.yaml` + `_position.yaml`
+- 文件位置：`ai-models-provider/models/llm/*.yaml` + `_position.yaml`
 - 过滤规则：仅 OpenAI 协议 + 文本 LLM 模型
 - 模型 ID 特殊字符转换：`deepseek/v3.2` → `deepseek-v3.2.yaml`
 
@@ -30,7 +30,7 @@ version: 0.2.0    # ✅ 发布时更新此字段 - 插件实际版本号
 ### 本地测试
 ```bash
 # 在各插件目录中执行：
-cd qiniu-ai-models  # 或 qiniu-storage-tools
+cd ai-models-provider  # 或 storage-tools
 pip install -r requirements.txt
 
 # 创建 .env 文件用于远程调试：
@@ -48,7 +48,7 @@ python -m main
 ./scripts/release.sh
 
 # 直接指定模式：
-./scripts/release.sh ai-models 0.2.1
+./scripts/release.sh ai-models-provider 0.2.1
 ./scripts/release.sh storage-tools 0.2.1
 ```
 
@@ -79,22 +79,22 @@ feat: add interactive mode to release script
 fix: remove tool-related logic from AI models plugin
 docs: update README with repository info
 refactor: split into two independent plugins
-chore(ai-models): release version 0.2.0
+chore(ai-models-provider): release version 0.2.0
 ```
 
 格式：`<type>(<scope>): <description>`
 - type: feat, fix, docs, refactor, chore, test, style
-- scope: 可选，如 ai-models, storage-tools
+- scope: 可选，如 ai-models-provider, storage-tools
 - description: 简短描述，使用英文，小写开头
 
 ### Provider 实现模式
 
-**AI 模型插件** (`qiniu-ai-models/provider/qiniu_ai.py`)：
+**AI 模型插件** (`ai-models-provider/provider/qiniu_ai.py`)：
 - 继承 `ModelProvider`
 - 仅通过实际模型调用验证（不依赖 qiniu SDK）
 - 使用 `deepseek-v3` 作为验证模型
 
-**存储工具插件** (`qiniu-storage-tools/provider/qiniu_tools.py`)：
+**存储工具插件** (`storage-tools/provider/qiniu_tools.py`)：
 - 继承 `ToolProvider`
 - 使用 `qiniu` SDK 进行存储桶操作
 - ⚠️ 凭证验证必须在网络错误时失败（不要跳过验证）

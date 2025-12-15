@@ -31,7 +31,7 @@ jobs:
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         
         # 验证插件名称
-        if [ "$PLUGIN_NAME" != "ai-models" ] && [ "$PLUGIN_NAME" != "storage-tools" ]; then
+        if [ "$PLUGIN_NAME" != "ai-models-provider" ] && [ "$PLUGIN_NAME" != "storage-tools" ]; then
           echo "Error: Unknown plugin name: $PLUGIN_NAME"
           exit 1
         fi

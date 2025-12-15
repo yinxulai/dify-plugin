@@ -4,7 +4,7 @@
 
 ## 📦 插件列表
 
-### 1. ai-models - AI 模型插件
+### 1. ai-models-provider - AI 模型插件
 
 接入七牛云 AI 推理平台，支持多种主流大语言模型。
 
@@ -18,7 +18,7 @@
 https://github.com/qiniu/dify-plugin
 ```
 
-[查看详细文档 →](./ai-models/readme/README.md)
+[查看详细文档 →](./ai-models-provider/readme/README.md)
 
 ---
 
@@ -71,7 +71,7 @@ https://github.com/qiniu/dify-plugin
 ### 项目结构
 ```
 dify-plugin/
-├── ai-models/          # AI 模型插件
+├── ai-models-provider/          # AI 模型插件
 │   ├── manifest.yaml
 │   ├── main.py
 │   ├── requirements.txt
@@ -99,7 +99,7 @@ git clone https://github.com/qiniu/dify-plugin.git
 cd dify-plugin
 
 # 安装 AI 模型插件依赖
-cd ai-models
+cd ai-models-provider
 pip install -r requirements.txt
 cd ..
 
@@ -147,7 +147,7 @@ pip install -r requirements.txt
 ./scripts/release.sh
 
 # 指定插件和版本
-./scripts/release.sh ai-models 0.0.2
+./scripts/release.sh ai-models-provider 0.0.2
 ./scripts/release.sh storage-tools 0.0.2
 ```
 
@@ -219,7 +219,7 @@ feat: add interactive mode to release script
 fix: remove tool-related logic from AI models plugin
 docs: update README with repository info
 refactor: split into two independent plugins
-chore(ai-models): release version 0.2.0
+chore(ai-models-provider): release version 0.2.0
 ```
 
 ---

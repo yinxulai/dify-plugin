@@ -71,7 +71,7 @@ jobs:
       - name: Commit changes
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
-          git add ai-models/models/llm/
+          git add ai-models-provider/models/llm/
           git commit -m "chore: 自动更新 AI 模型列表
 
           - 由 GitHub Actions 自动更新
@@ -97,7 +97,7 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "变更的文件：" >> $GITHUB_STEP_SUMMARY
             echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-            git diff --name-only HEAD~1 qiniu-ai-models/models/llm/ || echo "无法获取差异" >> $GITHUB_STEP_SUMMARY
+            git diff --name-only HEAD~1 ai-models-provider/models/llm/ || echo "无法获取差异" >> $GITHUB_STEP_SUMMARY
             echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           else
             echo "ℹ️ **没有检测到模型变更**" >> $GITHUB_STEP_SUMMARY
