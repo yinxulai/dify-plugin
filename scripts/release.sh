@@ -96,7 +96,7 @@ prompt_version() {
         echo -e "${CYAN}当前版本: ${YELLOW}$CURRENT_VERSION${NC}"
     fi
     
-    echo -e "${CYAN}请输入新版本号 (格式: x.y.z):${NC}"
+    echo -e "${CYAN}请输入新版本号 (格式: x.y.z 或 x.y.z-beta.n):${NC}"
     read -p "版本号: " VERSION
 }
 
@@ -107,7 +107,7 @@ if [ $# -eq 0 ]; then
     prompt_version
 elif [ $# -eq 1 ]; then
     # 一个参数：可能是版本号或插件名
-    if [[ "$1" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    if [[ "$1" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+(\.[0-9]+)?)?$ ]]; then
         # 参数是版本号，交互式选择插件
         VERSION=$1
         select_plugin
@@ -144,9 +144,9 @@ else
 fi
 
 # 验证版本格式
-if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+(\.[0-9]+)?)?$ ]]; then
     echo -e "${RED}错误: 无效的版本格式 '$VERSION'${NC}"
-    echo "版本格式应为: x.y.z (例如: 0.2.1)"
+    echo "版本格式应为: x.y.z 或 x.y.z-beta.n (例如: 0.2.1 或 0.2.0-beta.1)"
     exit 1
 fi
 
