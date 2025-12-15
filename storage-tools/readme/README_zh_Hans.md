@@ -128,7 +128,7 @@ https://github.com/qiniu/dify-plugin
 
 如需使用七牛云 AI 推理模型，请同时安装：
 
-- **qiniu-ai-models**：七牛云 AI 模型插件
+- **ai-models-provider**：七牛云 AI 模型插件
 
 ## 支持与反馈
 

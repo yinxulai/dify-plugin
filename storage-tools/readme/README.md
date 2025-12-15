@@ -128,7 +128,7 @@ After configuration, you can use Qiniu Cloud storage tools in Dify applications:
 
 For Qiniu Cloud AI inference models, please also install:
 
-- **qiniu-ai-models**: Qiniu Cloud AI Models Plugin
+- **ai-models-provider**: Qiniu Cloud AI Models Plugin
 
 ## Support and Feedback
 
