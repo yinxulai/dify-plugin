@@ -45,6 +45,7 @@ jobs:
           if [ "$PLUGIN_NAME" = "ai-models-provider" ] || [ "$PLUGIN_NAME" = "storage-tools" ]; then
             echo "plugin_path=$PLUGIN_NAME" >> $GITHUB_OUTPUT
             echo "author=yinxulai" >> $GITHUB_OUTPUT
+            echo "plugin_owner=qiniu" >> $GITHUB_OUTPUT
           else
             echo "Error: Unknown plugin name: $PLUGIN_NAME"
             exit 1
@@ -85,9 +86,9 @@ jobs:
           PACKAGE_NAME="${{ steps.parse_tag.outputs.plugin_name }}-${{ steps.parse_tag.outputs.version }}.difypkg"
           echo "Moving package: $PACKAGE_NAME"
 
-          # 将打包文件移动到目标目录
-          mkdir -p dify-plugins/${{ steps.parse_tag.outputs.author }}/${{ steps.parse_tag.outputs.plugin_name }}
-          mv "$PACKAGE_NAME" dify-plugins/${{ steps.parse_tag.outputs.author }}/${{ steps.parse_tag.outputs.plugin_name }}/
+          # 将打包文件移动到目标目录（使用 plugin_owner 作为组织目录）
+          mkdir -p dify-plugins/${{ steps.parse_tag.outputs.plugin_owner }}/${{ steps.parse_tag.outputs.plugin_name }}
+          mv "$PACKAGE_NAME" dify-plugins/${{ steps.parse_tag.outputs.plugin_owner }}/${{ steps.parse_tag.outputs.plugin_name }}/
 
           # 进入目标仓库目录
           cd dify-plugins
