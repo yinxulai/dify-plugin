@@ -40,6 +40,11 @@ class QiniuLargeLanguageModel(OAICompatLargeLanguageModel):
             LLMResult 或 Generator
         """
         self._add_custom_parameters(credentials)
+        
+        # 如果是自定义模型，使用 credentials 中的 model_name
+        if credentials.get("model_name"):
+            model = credentials["model_name"]
+        
         return super()._invoke(model, credentials, prompt_messages, model_parameters, tools, stop, stream, user)
 
     def validate_credentials(self, model: str, credentials: dict) -> None:
@@ -51,6 +56,11 @@ class QiniuLargeLanguageModel(OAICompatLargeLanguageModel):
             credentials: 认证信息
         """
         self._add_custom_parameters(credentials)
+        
+        # 如果是自定义模型，使用 credentials 中的 model_name
+        if credentials.get("model_name"):
+            model = credentials["model_name"]
+        
         super().validate_credentials(model, credentials)
 
     @staticmethod
