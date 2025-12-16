@@ -47,19 +47,19 @@ jobs:
         run: |
           if git diff --quiet ai-models-provider/models/llm/; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
-            echo "没有检测到模型变更"
+            echo "No model changes detected"
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
-            echo "检测到模型变更"
+            echo "Model changes detected"
           fi
       
       - name: Show changes
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
-          echo "变更的文件："
+          echo "Changed files:"
           git diff --name-only ai-models-provider/models/llm/
           echo ""
-          echo "详细变更："
+          echo "Detailed changes:"
           git diff ai-models-provider/models/llm/
       
       - name: Configure Git
@@ -72,12 +72,12 @@ jobs:
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
           git add ai-models-provider/models/llm/
-          git commit -m "chore: 自动更新 AI 模型列表
+          git commit -m "chore: auto-update AI models list
 
-          - 由 GitHub Actions 自动更新
-          - 执行时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
-          - 工作流: ${{ github.workflow }}
-          - 运行编号: ${{ github.run_number }}"
+          - Updated by GitHub Actions
+          - Execution time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+          - Workflow: ${{ github.workflow }}
+          - Run number: ${{ github.run_number }}"
       
       - name: Push changes
         if: steps.check_changes.outputs.has_changes == 'true'
@@ -89,19 +89,19 @@ jobs:
       - name: Create summary
         if: always()
         run: |
-          echo "## 模型列表更新报告" >> $GITHUB_STEP_SUMMARY
+          echo "## Model List Update Report" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
           if [ "${{ steps.check_changes.outputs.has_changes }}" = "true" ]; then
-            echo "✅ **检测到模型变更并已提交**" >> $GITHUB_STEP_SUMMARY
+            echo "✅ **Model changes detected and committed**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "变更的文件：" >> $GITHUB_STEP_SUMMARY
+            echo "Changed files:" >> $GITHUB_STEP_SUMMARY
             echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-            git diff --name-only HEAD~1 ai-models-provider/models/llm/ || echo "无法获取差异" >> $GITHUB_STEP_SUMMARY
+            git diff --name-only HEAD~1 ai-models-provider/models/llm/ || echo "Unable to get diff" >> $GITHUB_STEP_SUMMARY
             echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           else
-            echo "ℹ️ **没有检测到模型变更**" >> $GITHUB_STEP_SUMMARY
+            echo "ℹ️ **No model changes detected**" >> $GITHUB_STEP_SUMMARY
           fi
           
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "执行时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "Execution time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY

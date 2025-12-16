@@ -27,8 +27,7 @@
 │   ├─ "vision"               →   "vision"                            │
 │   └─ "tool-call"            →   自动添加 "stream-tool-call"          │
 │ model_constraints           → model_properties                      │
-│   ├─ context_length         →   context_size (默认 65536, 64k)      │
-│   └─ max_tokens             →   max_tokens (默认 4096)               │
+│   └─ context_length         →   context_size (默认 65536, 64k)      │
 │ 默认参数                     → parameter_rules                       │
 │   ├─ temperature            →   使用模板 "temperature"              │
 │   ├─ top_p                  →   使用模板 "top_p"                    │
@@ -56,7 +55,7 @@
 
 CI 环境行为：
 - 检测环境变量 CI=true 判断是否在 CI 环境中运行
-- 如果模型缺少 context_length 或 max_tokens 字段，记录错误
+- 如果模型缺少 context_length 字段，记录错误
 - 在更新完成后，如果发现有模型缺少必需字段，退出并返回错误码 1
 - 本地开发环境会使用默认值继续处理
 """
@@ -69,7 +68,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional
 
 # 七牛云市场 API 端点
-MARKET_API_URL = "https://openai.qiniu.com/v1/market/models"
+MARKET_API_URL = "https://openai.qiniu.com/v1/market/models?overseas=true"
 
 # 模型配置目录
 SCRIPT_DIR = Path(__file__).parent
@@ -167,34 +166,6 @@ def get_model_context_size(model_info: Dict[str, Any]) -> int:
     return 65536
 
 
-def get_model_max_tokens(model_info: Dict[str, Any]) -> int:
-    """
-    获取模型最大输出 tokens
-    
-    Args:
-        model_info: 模型信息字典
-    
-    Returns:
-        最大输出 tokens
-    """
-    model_constraints = model_info.get("model_constraints", {})
-    max_tokens = model_constraints.get("max_tokens", 0)
-    
-    if max_tokens > 0:
-        return max_tokens
-    
-    # 使用默认值并输出警告
-    model_id = model_info.get("id", "unknown")
-    error_msg = f"模型 {model_id} 缺少 max_tokens 字段"
-    print(f"  ⚠ 警告: {error_msg}，使用默认值 4096")
-    
-    # 在 CI 环境中记录错误
-    if IS_CI:
-        models_with_missing_fields.append(error_msg)
-    
-    return 4096
-
-
 def generate_model_yaml(model_info: Dict[str, Any]) -> Dict[str, Any]:
     """
     生成模型的 YAML 配置
@@ -236,9 +207,6 @@ def generate_model_yaml(model_info: Dict[str, Any]) -> Dict[str, Any]:
             },
         ],
     }
-    
-    # 添加最大输出 tokens
-    config["model_properties"]["max_tokens"] = get_model_max_tokens(model_info)
     
     return config
 
