@@ -8,17 +8,11 @@ features:
 - stream-tool-call
 model_properties:
   mode: chat
-  context_size: 0
+  context_size: 65536
 parameter_rules:
 - name: temperature
   use_template: temperature
-  default: 0.7
-  min: 0
-  max: 2
 - name: top_p
   use_template: top_p
-  default: 0.6
-  type: float
-- name: presence_penalty
-  use_template: presence_penalty
-  default: 0.95
+- name: max_tokens
+  use_template: max_tokens

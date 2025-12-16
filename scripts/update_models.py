@@ -68,7 +68,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional
 
 # 七牛云市场 API 端点
-MARKET_API_URL = "https://openai.qiniu.com/v1/market/models?overseas=true"
+MARKET_API_URL = "https://openai.sufy.com/v1/market/models?overseas=true"
 
 # 模型配置目录
 SCRIPT_DIR = Path(__file__).parent
