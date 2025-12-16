@@ -41,6 +41,54 @@ provider_credential_schema:
     type: text-input
     default: https://openai.qiniu.com/v1
     variable: endpoint_url
+model_credential_schema:
+  model:
+    label:
+      en_US: Model Name
+      zh_Hans: 模型名称
+    placeholder:
+      en_US: Enter your custom model name
+      zh_Hans: 输入自定义模型名称
+  credential_form_schemas:
+  - label:
+      en_US: API Key
+      zh_Hans: API Key
+    placeholder:
+      en_US: Enter your API Key for this model
+      zh_Hans: 为此模型输入 API Key
+    required: true
+    type: secret-input
+    variable: api_key
+  - label:
+      en_US: Custom API endpoint URL
+      zh_Hans: 自定义 API endpoint 地址
+    placeholder:
+      en_US: Base URL, e.g. https://openai.qiniu.com/v1
+      zh_Hans: Base URL, e.g. https://openai.qiniu.com/v1
+    required: false
+    type: text-input
+    default: https://openai.qiniu.com/v1
+    variable: endpoint_url
+  - label:
+      en_US: Context Size
+      zh_Hans: 上下文长度
+    placeholder:
+      en_US: Enter context size (default 4096)
+      zh_Hans: 输入上下文长度（默认 4096）
+    required: false
+    type: text-input
+    default: '4096'
+    variable: context_size
+  - label:
+      en_US: Max Tokens
+      zh_Hans: 最大令牌数
+    placeholder:
+      en_US: Enter max tokens to generate (default 4096)
+      zh_Hans: 输入最大生成令牌数（默认 4096）
+    required: false
+    type: text-input
+    default: '4096'
+    variable: max_tokens
 help:
   title:
     en_US: Get your API Key from Qiniu Cloud
