@@ -41,7 +41,7 @@ class QiniuProvider(ToolProvider):
             # 这里只是验证认证是否有效，不需要具体的空间名
             try:
                 # 调用接口验证认证信息
-                ret, eof, info = bucket_manager.buckets()
+                ret, info = bucket_manager.buckets()
                 
                 if info.status_code == 200:
                     logger.info("七牛云认证验证成功")
