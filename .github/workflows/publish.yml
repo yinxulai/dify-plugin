@@ -44,7 +44,7 @@ jobs:
           # 确定插件路径和作者
           if [ "$PLUGIN_NAME" = "ai-models-provider" ] || [ "$PLUGIN_NAME" = "storage-tools" ]; then
             echo "plugin_path=$PLUGIN_NAME" >> $GITHUB_OUTPUT
-            echo "author=qiniu" >> $GITHUB_OUTPUT
+            echo "author=yinxulai" >> $GITHUB_OUTPUT
           else
             echo "Error: Unknown plugin name: $PLUGIN_NAME"
             exit 1
