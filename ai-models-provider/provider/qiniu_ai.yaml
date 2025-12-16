@@ -15,6 +15,7 @@ supported_model_types:
 - llm
 configurate_methods:
 - predefined-model
+- customizable-model
 models:
   llm:
     position: models/llm/_position.yaml
