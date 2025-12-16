@@ -123,7 +123,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PLUGIN_ACTION }}
         run: |
-          gh pr create \
+          echo "Creating PR to langgenius/dify-plugins..."
+          echo "Head branch: ${{ steps.parse_tag.outputs.author }}:bump-${{ steps.parse_tag.outputs.plugin_name }}-plugin-${{ steps.parse_tag.outputs.version }}"
+          
+          # 尝试创建 PR
+          if gh pr create \
             --repo langgenius/dify-plugins \
             --head "${{ steps.parse_tag.outputs.author }}:bump-${{ steps.parse_tag.outputs.plugin_name }}-plugin-${{ steps.parse_tag.outputs.version }}" \
             --base main \
@@ -134,4 +138,22 @@ jobs:
             - Updated plugin package file
             
             ---
-            This PR was automatically created by GitHub Actions." || echo "PR already exists or creation skipped."
+            This PR was automatically created by GitHub Actions."; then
+            echo "✅ PR created successfully"
+          else
+            EXIT_CODE=$?
+            echo "⚠️ PR creation failed with exit code: $EXIT_CODE"
+            
+            # 检查是否已存在 PR
+            EXISTING_PR=$(gh pr list \
+              --repo langgenius/dify-plugins \
+              --head "${{ steps.parse_tag.outputs.author }}:bump-${{ steps.parse_tag.outputs.plugin_name }}-plugin-${{ steps.parse_tag.outputs.version }}" \
+              --json number,url --jq '.[0]' 2>&1 || echo "null")
+            
+            if [ "$EXISTING_PR" != "null" ] && [ -n "$EXISTING_PR" ]; then
+              echo "ℹ️ PR already exists: $EXISTING_PR"
+            else
+              echo "❌ Failed to create PR and no existing PR found"
+              exit 1
+            fi
+          fi
