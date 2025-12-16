@@ -41,9 +41,8 @@ class QiniuLargeLanguageModel(OAICompatLargeLanguageModel):
         """
         self._add_custom_parameters(credentials)
         
-        # 如果是自定义模型，使用 credentials 中的 model_name
-        if credentials.get("model_name"):
-            model = credentials["model_name"]
+        # 对于自定义模型，model 参数已经是用户输入的模型名称
+        # 不需要额外处理，直接使用即可
         
         return super()._invoke(model, credentials, prompt_messages, model_parameters, tools, stop, stream, user)
 
@@ -57,9 +56,8 @@ class QiniuLargeLanguageModel(OAICompatLargeLanguageModel):
         """
         self._add_custom_parameters(credentials)
         
-        # 如果是自定义模型，使用 credentials 中的 model_name
-        if credentials.get("model_name"):
-            model = credentials["model_name"]
+        # 对于自定义模型，model 参数已经是用户输入的模型名称
+        # 不需要额外处理，直接使用即可
         
         super().validate_credentials(model, credentials)
 
