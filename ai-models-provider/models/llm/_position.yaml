@@ -1,7 +1,8 @@
+- x-ai-grok-4-fast-non-reasoning
 - gemini-3.0-flash-preview
+- mimo-v2-flash
 - x-ai-grok-4-fast
 - x-ai-grok-4.1-fast
-- mimo-v2-flash
 - qwen3-max-preview
 - openai-gpt-5.2
 - deepseek-deepseek-v3.2-251201
