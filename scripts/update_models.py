@@ -22,10 +22,9 @@
 ├─────────────────────────────────────────────────────────────────────┤
 │ id                          → model (模型 ID)                       │
 │ name                        → label.zh_Hans / label.en_US (双语名称) │
-│ features                    → features (特性列表，需转换)            │
-│   ├─ "tools"                →   "tool-call"                         │
-│   ├─ "vision"               →   "vision"                            │
-│   └─ "tool-call"            →   自动添加 "stream-tool-call"          │
+│ input_modalities            → features (特性列表)                    │
+│   ├─ 默认                   →   ["tool-call", "stream-tool-call"]    │
+│   └─ 含 image               →   额外添加 "vision"                    │
 │ model_constraints           → model_properties                      │
 │   └─ context_length         →   context_size (默认 65536, 64k)      │
 │ 默认参数                     → parameter_rules                       │
@@ -42,8 +41,8 @@
   google/gemini-2.5-flash        → google-gemini-2.5-flash.yaml
 
 特性默认值：
-- 如果模型没有声明任何特性，默认添加: ["tool-call", "stream-tool-call"]
-- 如果有 tool-call 特性，自动添加 stream-tool-call
+- 始终输出 ["tool-call", "stream-tool-call"]
+- 如果输入模态包含 image，额外添加 "vision"
 
 文件管理策略：
 - 新增：创建新的 YAML 文件
@@ -65,7 +64,7 @@ import os
 import yaml
 import requests
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 
 # 七牛云市场 API 端点
 MARKET_API_URL = "https://openai.sufy.com/v1/market/models?overseas=true"
@@ -74,7 +73,27 @@ MARKET_API_URL = "https://openai.sufy.com/v1/market/models?overseas=true"
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
 MODELS_DIR = PROJECT_ROOT / "ai-models-provider" / "models" / "llm"
-POSITION_FILE = MODELS_DIR / "_position.yaml"
+POSITION_FILENAME = "_position.yaml"
+POSITION_FILE = MODELS_DIR / POSITION_FILENAME
+VISION_MODALITIES = {"image"}
+DEFAULT_CONTEXT_LENGTH = 65_536
+DEFAULT_FEATURES = ["tool-call", "stream-tool-call"]
+PARAMETER_RULE_TEMPLATES = [
+    {
+        "name": "temperature",
+        "use_template": "temperature",
+    },
+    {
+        "name": "top_p",
+        "use_template": "top_p",
+    },
+    {
+        "name": "max_tokens",
+        "use_template": "max_tokens",
+    },
+]
+
+ModelInfo = Dict[str, Any]
 
 # CI 环境检测
 IS_CI = os.getenv("CI", "").lower() in ("true", "1", "yes")
@@ -83,7 +102,12 @@ IS_CI = os.getenv("CI", "").lower() in ("true", "1", "yes")
 models_with_missing_fields = []
 
 
-def is_llm_model(model_info: Dict[str, Any]) -> bool:
+def has_vision_capability(input_modalities: List[str]) -> bool:
+    """Return True when the model supports any non-text modality we treat as vision."""
+    return any(modality in VISION_MODALITIES for modality in (input_modalities or []))
+
+
+def is_llm_model(model_info: ModelInfo) -> bool:
     """
     判断是否为文本 LLM 模型
     
@@ -101,7 +125,7 @@ def is_llm_model(model_info: Dict[str, Any]) -> bool:
     return "text" in input_modalities and "text" in output_modalities
 
 
-def get_model_features(model_info: Dict[str, Any]) -> List[str]:
+def get_model_features(model_info: ModelInfo) -> List[str]:
     """
     根据模型信息获取支持的特性
     
@@ -111,33 +135,18 @@ def get_model_features(model_info: Dict[str, Any]) -> List[str]:
     Returns:
         特性列表
     """
-    features = []
+    # 默认认为支持工具调用能力
+    features = list(DEFAULT_FEATURES)
     
-    # 从 features 字段获取
-    api_features = model_info.get("features", [])
-    
-    # 映射 API 特性到 Dify 特性
-    feature_mapping = {
-        "tools": "tool-call",
-        "vision": "vision",
-    }
-    
-    for api_feature in api_features:
-        if api_feature in feature_mapping:
-            features.append(feature_mapping[api_feature])
-    
-    # 如果支持工具调用，默认也支持流式工具调用
-    if "tool-call" in features:
-        features.append("stream-tool-call")
-    
-    # 如果没有任何特性，默认添加工具调用（大多数 LLM 都支持）
-    if not features:
-        features = ["tool-call", "stream-tool-call"]
+    architecture = model_info.get("architecture", {})
+    input_modalities = architecture.get("input_modalities", []) or []
+    if has_vision_capability(input_modalities) and "vision" not in features:
+        features.append("vision")
     
     return features
 
 
-def get_model_context_size(model_info: Dict[str, Any]) -> int:
+def get_model_context_size(model_info: ModelInfo) -> int:
     """
     获取模型上下文大小
     
@@ -163,10 +172,10 @@ def get_model_context_size(model_info: Dict[str, Any]) -> int:
     if IS_CI:
         models_with_missing_fields.append(error_msg)
     
-    return 65536
+    return DEFAULT_CONTEXT_LENGTH
 
 
-def generate_model_yaml(model_info: Dict[str, Any]) -> Dict[str, Any]:
+def generate_model_yaml(model_info: ModelInfo) -> Dict[str, Any]:
     """
     生成模型的 YAML 配置
     
@@ -192,26 +201,13 @@ def generate_model_yaml(model_info: Dict[str, Any]) -> Dict[str, Any]:
             "mode": "chat",
             "context_size": get_model_context_size(model_info),
         },
-        "parameter_rules": [
-            {
-                "name": "temperature",
-                "use_template": "temperature",
-            },
-            {
-                "name": "top_p",
-                "use_template": "top_p",
-            },
-            {
-                "name": "max_tokens",
-                "use_template": "max_tokens",
-            },
-        ],
+        "parameter_rules": [template.copy() for template in PARAMETER_RULE_TEMPLATES],
     }
     
     return config
 
 
-def fetch_models_from_api() -> List[Dict[str, Any]]:
+def fetch_models_from_api() -> List[ModelInfo]:
     """
     从七牛云市场 API 获取模型列表
     
@@ -279,16 +275,6 @@ def fetch_models_from_api() -> List[Dict[str, Any]]:
         return []
 
 
-def get_existing_models() -> List[str]:
-    """获取现有的模型文件名列表（不包含扩展名）"""
-    models = []
-    for file in MODELS_DIR.glob("*.yaml"):
-        if file.name not in ["_position.yaml"]:
-            model_filename = file.stem
-            models.append(model_filename)
-    return models
-
-
 def sanitize_filename(model_id: str) -> str:
     """
     将模型 ID 转换为合法的文件名
@@ -313,16 +299,15 @@ def sanitize_filename(model_id: str) -> str:
     return filename
 
 
-def get_existing_models() -> List[str]:
-    """获取现有的模型列表"""
-    models = []
-    for file in MODELS_DIR.glob("*.yaml"):
-        if file.name not in ["_position.yaml"]:
-            model_id = file.stem
-            models.append(model_id)
-    return models
+def get_existing_model_files() -> Dict[str, Path]:
+    """Return a mapping of sanitized model IDs to their YAML file paths."""
+    return {
+        file.stem: file
+        for file in MODELS_DIR.glob("*.yaml")
+        if file.name != POSITION_FILENAME
+    }
 
-def update_model_files(models: List[Dict[str, Any]]) -> tuple[List[str], List[str], List[str]]:
+def update_model_files(models: List[ModelInfo]) -> tuple[List[str], List[str], List[str]]:
     """
     更新模型配置文件
     
@@ -332,12 +317,11 @@ def update_model_files(models: List[Dict[str, Any]]) -> tuple[List[str], List[st
     Returns:
         (新增的模型 ID 列表, 更新的模型 ID 列表, 删除的模型文件名列表)
     """
-    existing_models = set(get_existing_models())
-    new_model_filenames = set(sanitize_filename(m["id"]) for m in models)
-    
-    added = []
-    updated = []
-    removed = []
+    existing_models = get_existing_model_files()
+    new_model_filenames = set()
+    added: List[str] = []
+    updated: List[str] = []
+    removed: List[str] = []
     
     # 新增或更新模型
     for model_info in models:
@@ -345,11 +329,10 @@ def update_model_files(models: List[Dict[str, Any]]) -> tuple[List[str], List[st
         model_name = model_info.get("name", model_id)
         filename = sanitize_filename(model_id)
         file_path = MODELS_DIR / f"{filename}.yaml"
+        new_model_filenames.add(filename)
         
-        # 生成配置
         config = generate_model_yaml(model_info)
         
-        # 判断是新增还是更新
         if filename not in existing_models:
             print(f"  + 新增: {model_id}")
             if model_name != model_id:
@@ -359,14 +342,12 @@ def update_model_files(models: List[Dict[str, Any]]) -> tuple[List[str], List[st
             print(f"  ↻ 更新: {model_id}")
             updated.append(model_id)
         
-        # 写入 YAML 文件
         with open(file_path, "w", encoding="utf-8") as f:
             yaml.dump(config, f, allow_unicode=True, sort_keys=False, default_flow_style=False)
     
     # 删除不在新列表中的模型（全量更新）
-    for filename in existing_models:
+    for filename, file_path in existing_models.items():
         if filename not in new_model_filenames:
-            file_path = MODELS_DIR / f"{filename}.yaml"
             print(f"  - 删除: {filename}")
             file_path.unlink()
             removed.append(filename)
@@ -374,7 +355,7 @@ def update_model_files(models: List[Dict[str, Any]]) -> tuple[List[str], List[st
     return added, updated, removed
 
 
-def update_position_file(models: List[Dict[str, Any]]):
+def update_position_file(models: List[ModelInfo]):
     """
     更新 _position.yaml 文件
     
@@ -411,6 +392,40 @@ def update_position_file(models: List[Dict[str, Any]]):
     print(f"✓ 已更新 _position.yaml，共 {len(ordered_models)} 个模型")
 
 
+def summarize_changes(added: List[str], updated: List[str], removed: List[str], total: int) -> None:
+    print()
+    print("=" * 70)
+    print("更新完成！")
+    print(f"  新增模型: {len(added)} 个")
+    print(f"  更新模型: {len(updated)} 个")
+    print(f"  删除模型: {len(removed)} 个")
+    print(f"  总计模型: {total} 个")
+    print("=" * 70)
+
+
+def enforce_ci_requirements() -> None:
+    if IS_CI and models_with_missing_fields:
+        print()
+        print("=" * 70)
+        print("✗ 错误：在 CI 环境中检测到模型缺少必需字段")
+        print("=" * 70)
+        for error in models_with_missing_fields:
+            print(f"  ✗ {error}")
+        print()
+        print(f"共 {len(models_with_missing_fields)} 个模型缺少必需字段")
+        print("请联系 API 提供方修复数据完整性问题")
+        print("=" * 70)
+        sys.exit(1)
+
+
+def exit_with_change_status(added: List[str], updated: List[str], removed: List[str]) -> None:
+    if added or updated or removed:
+        sys.exit(0)
+    print()
+    print("提示：没有检测到模型变更")
+    sys.exit(1)
+
+
 def main():
     """主函数"""
     print("=" * 70)
@@ -440,40 +455,9 @@ def main():
     
     # 更新 position 文件
     update_position_file(models)
-    
-    print()
-    print("=" * 70)
-    print("更新完成！")
-    print(f"  新增模型: {len(added)} 个")
-    print(f"  更新模型: {len(updated)} 个")
-    print(f"  删除模型: {len(removed)} 个")
-    print(f"  总计模型: {len(models)} 个")
-    print("=" * 70)
-    
-    # 在 CI 环境中，如果有模型缺少必需字段，报错并退出
-    if IS_CI and models_with_missing_fields:
-        print()
-        print("=" * 70)
-        print("✗ 错误：在 CI 环境中检测到模型缺少必需字段")
-        print("=" * 70)
-        for error in models_with_missing_fields:
-            print(f"  ✗ {error}")
-        print()
-        print(f"共 {len(models_with_missing_fields)} 个模型缺少必需字段")
-        print("请联系 API 提供方修复数据完整性问题")
-        print("=" * 70)
-        sys.exit(1)
-    
-    # 返回退出码
-    # 0: 成功且有变更
-    # 1: 成功但无变更（可用于 CI/CD 判断是否需要提交）
-    has_changes = bool(added or updated or removed)
-    if has_changes:
-        sys.exit(0)
-    else:
-        print()
-        print("提示：没有检测到模型变更")
-        sys.exit(1)
+    summarize_changes(added, updated, removed, len(models))
+    enforce_ci_requirements()
+    exit_with_change_status(added, updated, removed)
 
 
 if __name__ == "__main__":
