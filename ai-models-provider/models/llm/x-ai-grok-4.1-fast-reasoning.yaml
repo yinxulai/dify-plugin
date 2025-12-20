@@ -1,7 +1,7 @@
-model: gemini-2.5-flash
+model: x-ai/grok-4.1-fast-reasoning
 label:
-  zh_Hans: Gemini 2.5 Flash
-  en_US: Gemini 2.5 Flash
+  zh_Hans: X-Ai/Grok 4.1 Fast Reasoning
+  en_US: X-Ai/Grok 4.1 Fast Reasoning
 model_type: llm
 features:
 - tool-call
@@ -9,7 +9,7 @@ features:
 - vision
 model_properties:
   mode: chat
-  context_size: 1048576
+  context_size: 20000000
 parameter_rules:
 - name: temperature
   use_template: temperature
