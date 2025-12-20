@@ -1,5 +1,10 @@
-- x-ai-grok-4-fast-non-reasoning
 - gemini-3.0-flash-preview
+- gpt-oss-20b
+- gpt-oss-120b
+- x-ai-grok-4.1-fast-non-reasoning
+- x-ai-grok-4.1-fast-reasoning
+- x-ai-grok-4-fast-reasoning
+- x-ai-grok-4-fast-non-reasoning
 - mimo-v2-flash
 - x-ai-grok-4-fast
 - x-ai-grok-4.1-fast
@@ -33,8 +38,6 @@
 - minimax-minimax-m2
 - qwen3-max
 - MiniMax-M1
-- gpt-oss-20b
-- gpt-oss-120b
 - qwen3-next-80b-a3b-thinking
 - qwen3-next-80b-a3b-instruct
 - moonshotai-kimi-k2-0905
