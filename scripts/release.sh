@@ -220,7 +220,7 @@ find "$PLUGIN_DIR" -name "*.pyc" -delete 2>/dev/null || true
 # 提交更改
 echo -e "${GREEN}[3/5]${NC} 提交更改..."
 git add "$MANIFEST_FILE"
-git commit -m "chore($PLUGIN): release version $VERSION"
+git commit -m "chore($PLUGIN_NAME): release version $VERSION"
 
 # 创建标签
 echo -e "${GREEN}[4/5]${NC} 创建 Git 标签..."
