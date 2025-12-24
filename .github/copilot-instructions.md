@@ -112,6 +112,7 @@ chore(ai-models-provider): release version 0.2.0
 3. **凭证验证** - 永远不要在错误时接受未验证的凭证
 4. **插件分离** - AI 模型 ≠ 存储工具（不同的依赖）
 5. **CI 中的文件路径** - 使用 matrix 变量：`${{ matrix.plugin.path }}`
+6. **插件 README 版本历史** - 不要在各插件 README 中维护版本历史，容易漏更新；统一在根目录 README 维护
 
 ## 关键文件参考
 

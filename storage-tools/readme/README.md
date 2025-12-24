@@ -6,7 +6,6 @@ Official Qiniu Cloud object storage tools plugin for Dify, providing comprehensi
 
 - **Plugin Name**: storage-tools
 - **Author**: Qiniu Cloud
-- **Version**: 0.2.0
 - **License**: MIT License
 
 ## Features
