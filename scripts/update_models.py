@@ -72,7 +72,9 @@ MARKET_API_URL = "https://openai.sufy.com/v1/market/models?overseas=true"
 # 模型配置目录
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-MODELS_DIR = PROJECT_ROOT / "ai-models-provider" / "models" / "llm"
+AI_MODELS_DIR = PROJECT_ROOT / "ai-models-provider"
+MODELS_DIR = AI_MODELS_DIR / "models" / "llm"
+MANIFEST_FILE = AI_MODELS_DIR / "manifest.yaml"
 POSITION_FILENAME = "_position.yaml"
 POSITION_FILE = MODELS_DIR / POSITION_FILENAME
 VISION_MODALITIES = {"image"}
@@ -392,6 +394,61 @@ def update_position_file(models: List[ModelInfo]):
     print(f"✓ 已更新 _position.yaml，共 {len(ordered_models)} 个模型")
 
 
+def bump_patch_version() -> str:
+    """
+    自动增加 manifest.yaml 中的小版本号（patch version）
+    
+    版本号格式：major.minor.patch
+    例如：0.2.0 -> 0.2.1
+    
+    Returns:
+        新版本号字符串
+    """
+    try:
+        with open(MANIFEST_FILE, "r", encoding="utf-8") as f:
+            manifest = yaml.safe_load(f)
+        
+        current_version = manifest.get("version", "0.0.0")
+        print(f"  当前版本: {current_version}")
+        
+        # 解析版本号
+        parts = current_version.split(".")
+        if len(parts) != 3:
+            print(f"  ⚠ 警告: 版本号格式不正确: {current_version}，跳过版本更新")
+            return current_version
+        
+        major, minor, patch = parts
+        new_patch = int(patch) + 1
+        new_version = f"{major}.{minor}.{new_patch}"
+        
+        # 更新版本号
+        manifest["version"] = new_version
+        
+        # 写回文件，保持原有格式和注释
+        with open(MANIFEST_FILE, "r", encoding="utf-8") as f:
+            content = f.read()
+        
+        # 使用简单的字符串替换来保持文件格式和注释
+        # 查找 version: x.x.x 格式的行（但不要匹配 meta.version）
+        import re
+        content = re.sub(
+            r'^version:\s*["\']?' + re.escape(current_version) + r'["\']?\s*$',
+            f'version: {new_version}',
+            content,
+            flags=re.MULTILINE
+        )
+        
+        with open(MANIFEST_FILE, "w", encoding="utf-8") as f:
+            f.write(content)
+        
+        print(f"  ✓ 已自动更新版本号: {current_version} -> {new_version}")
+        return new_version
+        
+    except Exception as e:
+        print(f"  ⚠ 警告: 无法自动更新版本号: {e}")
+        return manifest.get("version", "0.0.0")
+
+
 def summarize_changes(added: List[str], updated: List[str], removed: List[str], total: int) -> None:
     print()
     print("=" * 70)
@@ -402,6 +459,13 @@ def summarize_changes(added: List[str], updated: List[str], removed: List[str], 
     print(f"  总计模型: {total} 个")
     print("=" * 70)
 
+    # 如果有模型变更，自动增加版本号
+    if added or updated or removed:
+        print()
+        print("检测到模型变更，自动更新版本号...")
+        bump_patch_version()
+    
+    
 
 def enforce_ci_requirements() -> None:
     if IS_CI and models_with_missing_fields:
