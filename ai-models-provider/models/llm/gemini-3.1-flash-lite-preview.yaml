@@ -1,14 +1,15 @@
-model: openrouter/pony-alpha
+model: gemini-3.1-flash-lite-preview
 label:
-  zh_Hans: Openrouter/Pony-Alpha
-  en_US: Openrouter/Pony-Alpha
+  zh_Hans: Gemini 3.1 Flash Lite Preview
+  en_US: Gemini 3.1 Flash Lite Preview
 model_type: llm
 features:
 - tool-call
 - stream-tool-call
+- vision
 model_properties:
   mode: chat
-  context_size: 200000
+  context_size: 1000000
 parameter_rules:
 - name: temperature
   use_template: temperature
