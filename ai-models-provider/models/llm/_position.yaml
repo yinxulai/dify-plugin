@@ -1,8 +1,10 @@
+- moonshotai-kimi-k2.5
+- openai-gpt-5.4
+- openai-gpt-5.2
 - gemini-3.1-flash-lite-preview
 - gemini-3.1-flash-image-preview
 - meituan-longcat-flash-lite
 - z-ai-glm-5
-- moonshotai-kimi-k2.5
 - minimax-minimax-m2.5
 - openai-gpt-5.2-chat
 - stepfun-step-3.5-flash
@@ -39,7 +41,6 @@
 - deepseek-r1-0528
 - deepseek-v3-0324
 - deepseek-deepseek-v3.2-251201
-- openai-gpt-5.2
 - claude-4.0-opus
 - claude-4.5-opus
 - claude-4.5-haiku
