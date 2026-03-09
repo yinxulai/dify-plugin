@@ -111,9 +111,6 @@ def has_vision_capability(input_modalities: List[str]) -> bool:
     return any(modality in VISION_MODALITIES for modality in (input_modalities or []))
 
 
-def is_llm_model(model_info: ModelInfo) -> bool:
-
-
 def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     """解析命令行参数。"""
     parser = argparse.ArgumentParser(description="七牛云 AI 模型列表自动更新脚本")
