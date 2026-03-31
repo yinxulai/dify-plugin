@@ -30,6 +30,7 @@
 - doubao-seed-1.6-thinking
 - deepseek-v3.1
 - x-ai-grok-code-fast-1
+- gemini-3.0-pro-preview
 - qwen3-max-preview
 - qwen3-next-80b-a3b-thinking
 - qwen3-next-80b-a3b-instruct
@@ -46,7 +47,6 @@
 - claude-4.5-haiku
 - minimax-minimax-m2
 - moonshotai-kimi-k2-thinking
-- gemini-3.0-pro-preview
 - x-ai-grok-4.1-fast
 - gemini-3.0-pro-image-preview
 - claude-4.5-opus
@@ -59,7 +59,6 @@
 - x-ai-grok-4.1-fast-non-reasoning
 - z-ai-glm-4.7
 - minimax-minimax-m2.1
-- xiaomi-mimo-v2-flash
 - moonshotai-kimi-k2.5
 - stepfun-step-3.5-flash
 - qwen3-30b-a3b-instruct-2507
