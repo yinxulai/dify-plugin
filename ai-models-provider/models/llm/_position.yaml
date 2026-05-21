@@ -1,3 +1,8 @@
+- google-gemini-3.1-flash-lite
+- x-ai-grok-code-fast-1
+- x-ai-grok-4.1-fast
+- google-gemini-3.5-flash
+- gpt-oss-120b
 - z-ai-glm-5.1
 - anthropic-claude-4.7-opus
 - moonshotai-kimi-k2.6
@@ -16,9 +21,7 @@
 - gemini-3.1-flash-lite-preview
 - gemini-3.0-pro-image-preview
 - gemini-3.1-flash-image-preview
-- x-ai-grok-code-fast-1
 - x-ai-grok-4-fast
-- x-ai-grok-4.1-fast
 - qwen-qwen3.6-plus
 - deepseek-deepseek-v3.2-251201
 - claude-4.6-opus
@@ -69,7 +72,6 @@
 - qwen3-235b-a22b
 - qwen3-30b-a3b
 - qwen3-32b
-- gpt-oss-120b
 - qwen3-235b-a22b-instruct-2507
 - qwen3-235b-a22b-thinking-2507
 - deepseek-v3
