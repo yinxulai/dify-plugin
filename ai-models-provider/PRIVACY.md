@@ -1,28 +1,32 @@
 # Privacy Policy
 
-## Data Collection
+This plugin is developed and maintained by **Qiniu Cloud** (Shanghai Qiniu Information Technologies Co., Ltd.).
 
-This plugin does **not** collect, store, or transmit any personal data on its own.
+By using this plugin, your use of Qiniu Cloud services is governed by the [Qiniu Cloud Privacy Policy](https://www.qiniu.com/agreements/privacy-right).
 
-## How This Plugin Works
+## Data Processed by This Plugin
 
-This plugin routes your prompts and model requests to the [Qiniu Cloud AI inference API](https://openai.qiniu.com/). The data flow is:
+This plugin acts as a pass-through connector between Dify and the Qiniu Cloud AI inference API. It does **not** independently collect, store, log, or share any user data.
 
-1. Your input (prompts, messages) is sent directly from Dify to Qiniu Cloud's API endpoint.
-2. The model response is returned to Dify.
-3. This plugin does not store, log, or share any of this data independently.
+The following data is transmitted to Qiniu Cloud's servers solely to fulfill your requests:
 
-## Third-Party Services
+- Prompts and messages you send to the AI model
+- Model responses returned to Dify
+- API credentials (Access Key / Secret Key) used to authenticate requests
 
-All AI inference is performed by **Qiniu Cloud**. By using this plugin, your data is subject to:
+## Third-Party Service
 
-- [Qiniu Cloud Privacy Policy](https://www.qiniu.com/privacy)
-- [Qiniu Cloud Terms of Service](https://www.qiniu.com/agreements)
+All AI inference is performed by **Qiniu Cloud**. Your inputs and outputs are processed according to:
 
-## Credentials
+- [Qiniu Cloud Privacy Policy](https://www.qiniu.com/agreements/privacy-right)
+- [Qiniu Cloud Terms of Service](https://www.qiniu.com/agreements/user-agreement)
 
-Your Qiniu Cloud API credentials (Access Key / Secret Key) are stored securely within your Dify instance and are only used to authenticate requests to Qiniu Cloud's API.
+Qiniu Cloud has obtained ISO/IEC 27001 information security management certification and ISO/IEC 27701 privacy information management certification.
 
-## Contact
+## Your Rights
 
-For privacy-related questions, please contact: support@qiniu.com
+As described in the Qiniu Cloud Privacy Policy, you have the right to access, correct, delete, and port your personal information. To exercise these rights or for any privacy-related questions, please contact Qiniu Cloud through:
+
+- [Submit a ticket](https://support.qiniu.com/tickets/new)
+- Phone: 400-808-9176 (press 1)
+- Email: bd@qiniu.com
