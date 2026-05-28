@@ -1,3 +1,5 @@
+- deepseek-deepseek-v3.1-terminus-thinking
+- x-ai-grok-4.2-non-reasoning
 - z-ai-glm-5.1
 - anthropic-claude-4.7-opus
 - moonshotai-kimi-k2.6
@@ -7,7 +9,6 @@
 - tencent-hy3-preview
 - google-gemini-3.1-flash-lite
 - x-ai-grok-4.3
-- x-ai-grok-4.2-non-reasoning
 - x-ai-grok-4.2-reasoning
 - google-gemini-3.5-flash
 - qwen-qwen3.6-27b
@@ -65,9 +66,6 @@
 - deepseek-r1-0528
 - deepseek-r1
 - deepseek-v3-0324
-- doubao-1.5-pro-32k
-- doubao-1.5-thinking-pro
-- doubao-1.5-vision-pro
 - glm-4.5
 - qwen-max-2025-01-25
 - qwen-turbo
@@ -88,7 +86,6 @@
 - qwen3-max-preview
 - qwen3-next-80b-a3b-thinking
 - qwen3-next-80b-a3b-instruct
-- deepseek-deepseek-v3.1-terminus-thinking
 - deepseek-deepseek-v3.1-terminus
 - qwen3-max
 - deepseek-deepseek-v3.2-exp
