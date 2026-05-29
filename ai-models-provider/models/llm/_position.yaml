@@ -1,4 +1,6 @@
+- anthropic-claude-4.8-opus
 - deepseek-deepseek-v3.1-terminus-thinking
+- x-ai-grok-4-fast-reasoning
 - x-ai-grok-4.2-non-reasoning
 - z-ai-glm-5.1
 - anthropic-claude-4.7-opus
@@ -94,7 +96,6 @@
 - minimax-minimax-m2
 - moonshotai-kimi-k2-thinking
 - x-ai-grok-4-fast-non-reasoning
-- x-ai-grok-4-fast-reasoning
 - x-ai-grok-4.1-fast-reasoning
 - x-ai-grok-4.1-fast-non-reasoning
 - z-ai-glm-4.7
