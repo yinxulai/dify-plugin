@@ -2,7 +2,6 @@
 - kimi-k2
 - qwen2.5-vl-72b-instruct
 - deepseek-deepseek-v3.1-terminus-thinking
-- qwen-max-2025-01-25
 - z-ai-glm-5.1
 - anthropic-claude-4.7-opus
 - moonshotai-kimi-k2.6
@@ -21,6 +20,7 @@
 - qwen-qwen3.7-max
 - anthropic-claude-4.8-opus
 - minimax-minimax-m3
+- qwen-max-2025-01-25
 - qwen-vl-max-2025-01-25
 - moonshotai-kimi-k2-thinking
 - minimax-minimax-m2.1
