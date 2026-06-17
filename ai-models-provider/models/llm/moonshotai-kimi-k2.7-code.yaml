@@ -1,0 +1,19 @@
+model: moonshotai/kimi-k2.7-code
+label:
+  zh_Hans: Moonshotai/Kimi-K2.7-Code
+  en_US: Moonshotai/Kimi-K2.7-Code
+model_type: llm
+features:
+- tool-call
+- stream-tool-call
+- vision
+model_properties:
+  mode: chat
+  context_size: 262144
+parameter_rules:
+- name: temperature
+  use_template: temperature
+- name: top_p
+  use_template: top_p
+- name: max_tokens
+  use_template: max_tokens
