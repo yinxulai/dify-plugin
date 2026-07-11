@@ -1,7 +1,7 @@
-model: openai/gpt-5.5-pro
+model: x-ai/grok-4.5
 label:
-  zh_Hans: GPT 5.5 PRO
-  en_US: GPT 5.5 PRO
+  zh_Hans: X-Ai/Grok 4.5
+  en_US: X-Ai/Grok 4.5
 model_type: llm
 features:
 - tool-call
@@ -9,7 +9,7 @@ features:
 - vision
 model_properties:
   mode: chat
-  context_size: 1050000
+  context_size: 500000
 parameter_rules:
 - name: temperature
   use_template: temperature
