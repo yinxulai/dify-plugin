@@ -1,7 +1,7 @@
 model: openai/gpt-5-chat
 label:
-  zh_Hans: Openai/GPT-5 Chat
-  en_US: Openai/GPT-5 Chat
+  zh_Hans: OpenAI/GPT-5 Chat
+  en_US: OpenAI/GPT-5 Chat
 model_type: llm
 features:
 - tool-call

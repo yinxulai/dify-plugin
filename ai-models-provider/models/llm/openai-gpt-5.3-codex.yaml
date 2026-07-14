@@ -1,7 +1,7 @@
 model: openai/gpt-5.3-codex
 label:
-  zh_Hans: Openai/GPT-5.3 Codex
-  en_US: Openai/GPT-5.3 Codex
+  zh_Hans: OpenAI/GPT-5.3 Codex
+  en_US: OpenAI/GPT-5.3 Codex
 model_type: llm
 features:
 - tool-call
