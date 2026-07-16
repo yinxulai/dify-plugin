@@ -1,7 +1,7 @@
-model: qwen2.5-vl-7b-instruct
+model: stepfun/step-3.7-flash
 label:
-  zh_Hans: Qwen 2.5 VL 7B Instruct
-  en_US: Qwen 2.5 VL 7B Instruct
+  zh_Hans: Step-3.7 Flash
+  en_US: Step-3.7 Flash
 model_type: llm
 features:
 - tool-call
@@ -9,7 +9,7 @@ features:
 - vision
 model_properties:
   mode: chat
-  context_size: 128000
+  context_size: 256000
 parameter_rules:
 - name: temperature
   use_template: temperature
