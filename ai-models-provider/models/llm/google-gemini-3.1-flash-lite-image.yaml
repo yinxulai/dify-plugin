@@ -1,7 +1,7 @@
 model: google/gemini-3.1-flash-lite-image
 label:
-  zh_Hans: Gemini 3.1 Flash Lite Image
-  en_US: Gemini 3.1 Flash Lite Image
+  zh_Hans: Google/Gemini 3.1 Flash Lite Image
+  en_US: Google/Gemini 3.1 Flash Lite Image
 model_type: llm
 features:
 - tool-call

@@ -1,7 +1,7 @@
 model: anthropic/claude-sonnet-5
 label:
-  zh_Hans: Claude 5 Sonnet
-  en_US: Claude 5 Sonnet
+  zh_Hans: Anthropic/Claude Sonnet 5
+  en_US: Anthropic/Claude Sonnet 5
 model_type: llm
 features:
 - tool-call
