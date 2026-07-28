@@ -16,8 +16,8 @@
 - x-ai-grok-4-fast-reasoning
 - z-ai-glm-4.7
 - qwen3-30b-a3b-thinking-2507
-- anthropic-claude-opus-5
 - anthropic-claude-sonnet-5
+- anthropic-claude-opus-5
 - moonshotai-kimi-k3
 - z-ai-glm-5.1
 - anthropic-claude-4.7-opus
