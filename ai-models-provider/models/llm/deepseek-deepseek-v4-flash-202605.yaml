@@ -1,7 +1,7 @@
 model: deepseek/deepseek-v4-flash-202605
 label:
-  zh_Hans: DeepSeek/DeepSeek-V4-Flash-202605
-  en_US: DeepSeek/DeepSeek-V4-Flash-202605
+  zh_Hans: DeepSeek-V4-Flash-202605
+  en_US: DeepSeek-V4-Flash-202605
 model_type: llm
 features:
 - tool-call

@@ -1,7 +1,7 @@
 model: minimax/minimax-m3
 label:
-  zh_Hans: Minimax/Minimax-M3
-  en_US: Minimax/Minimax-M3
+  zh_Hans: Minimax-M3
+  en_US: Minimax-M3
 model_type: llm
 features:
 - tool-call
