@@ -1,7 +1,7 @@
 model: moonshotai/kimi-k3
 label:
-  zh_Hans: Moonshotai/Kimi-K3
-  en_US: Moonshotai/Kimi-K3
+  zh_Hans: Kimi-K3
+  en_US: Kimi-K3
 model_type: llm
 features:
 - tool-call

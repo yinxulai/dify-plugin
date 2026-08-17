@@ -1,7 +1,7 @@
 model: x-ai/grok-4.6
 label:
-  zh_Hans: Grok 4.6
-  en_US: Grok 4.6
+  zh_Hans: Grok-4.6
+  en_US: Grok-4.6
 model_type: llm
 features:
 - tool-call

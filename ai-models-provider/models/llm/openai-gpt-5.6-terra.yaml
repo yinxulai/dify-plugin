@@ -1,7 +1,7 @@
 model: openai/gpt-5.6-terra
 label:
-  zh_Hans: OpenAI/GPT-5.6 Terra
-  en_US: OpenAI/GPT-5.6 Terra
+  zh_Hans: GPT-5.6-Terra
+  en_US: GPT-5.6-Terra
 model_type: llm
 features:
 - tool-call

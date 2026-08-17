@@ -1,7 +1,7 @@
 model: gemini-3.0-pro-image-preview
 label:
-  zh_Hans: Gemini 3.0 Pro Image Preview
-  en_US: Gemini 3.0 Pro Image Preview
+  zh_Hans: Gemini-3.0-Pro-Image-Preview
+  en_US: Gemini-3.0-Pro-Image-Preview
 model_type: llm
 features:
 - tool-call

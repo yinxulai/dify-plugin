@@ -1,7 +1,7 @@
 model: MiniMax-M1
 label:
-  zh_Hans: MiniMax M1
-  en_US: MiniMax M1
+  zh_Hans: MiniMax-M1
+  en_US: MiniMax-M1
 model_type: llm
 features:
 - tool-call

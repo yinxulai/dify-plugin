@@ -1,7 +1,7 @@
 model: qwen/qwen3.5-plus
 label:
-  zh_Hans: Qwen/Qwen3.5-Plus
-  en_US: Qwen/Qwen3.5-Plus
+  zh_Hans: Qwen3.5-Plus
+  en_US: Qwen3.5-Plus
 model_type: llm
 features:
 - tool-call

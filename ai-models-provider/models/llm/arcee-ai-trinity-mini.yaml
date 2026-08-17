@@ -1,7 +1,7 @@
 model: arcee-ai/trinity-mini
 label:
-  zh_Hans: Arcee-Ai/Trinity Mini
-  en_US: Arcee-Ai/Trinity Mini
+  zh_Hans: Trinity-Mini
+  en_US: Trinity-Mini
 model_type: llm
 features:
 - tool-call

@@ -1,7 +1,7 @@
 model: claude-4.6-sonnet
 label:
-  zh_Hans: Claude 4.6 Sonnet
-  en_US: Claude 4.6 Sonnet
+  zh_Hans: Claude-4.6-Sonnet
+  en_US: Claude-4.6-Sonnet
 model_type: llm
 features:
 - tool-call

@@ -1,7 +1,7 @@
 model: qwen3-max-preview
 label:
-  zh_Hans: Qwen3 Max Preview
-  en_US: Qwen3 Max Preview
+  zh_Hans: Qwen3-Max-Preview
+  en_US: Qwen3-Max-Preview
 model_type: llm
 features:
 - tool-call

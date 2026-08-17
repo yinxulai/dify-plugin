@@ -1,7 +1,7 @@
 model: doubao-1.5-pro-32k
 label:
-  zh_Hans: Doubao 1.5 Pro 32k
-  en_US: Doubao 1.5 Pro 32k
+  zh_Hans: Doubao-1.5-Pro-32k
+  en_US: Doubao-1.5-Pro-32k
 model_type: llm
 features:
 - tool-call

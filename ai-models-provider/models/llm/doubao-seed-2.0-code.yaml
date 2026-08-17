@@ -1,7 +1,7 @@
 model: doubao-seed-2.0-code
 label:
-  zh_Hans: Doubao Seed 2.0 Code
-  en_US: Doubao Seed 2.0 Code
+  zh_Hans: Doubao-Seed-2.0-Code
+  en_US: Doubao-Seed-2.0-Code
 model_type: llm
 features:
 - tool-call

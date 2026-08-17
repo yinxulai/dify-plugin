@@ -1,7 +1,7 @@
 model: doubao-1.5-vision-pro
 label:
-  zh_Hans: Doubao 1.5 Vision Pro
-  en_US: Doubao 1.5 Vision Pro
+  zh_Hans: Doubao-1.5-Vision-Pro
+  en_US: Doubao-1.5-Vision-Pro
 model_type: llm
 features:
 - tool-call

@@ -1,7 +1,7 @@
 model: moonshotai/kimi-k2-thinking
 label:
-  zh_Hans: Kimi K2 Thinking
-  en_US: Kimi K2 Thinking
+  zh_Hans: Kimi-K2-Thinking
+  en_US: Kimi-K2-Thinking
 model_type: llm
 features:
 - tool-call

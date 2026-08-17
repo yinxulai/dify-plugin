@@ -1,7 +1,7 @@
 model: bytedance/doubao-seed-2-1-turbo
 label:
-  zh_Hans: Doubao Seed 2.1 turbo
-  en_US: Doubao Seed 2.1 turbo
+  zh_Hans: Doubao-Seed-2.1-turbo
+  en_US: Doubao-Seed-2.1-turbo
 model_type: llm
 features:
 - tool-call

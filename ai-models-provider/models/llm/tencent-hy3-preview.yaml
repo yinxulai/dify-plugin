@@ -1,7 +1,7 @@
 model: tencent/hy3-preview
 label:
-  zh_Hans: Tencent/Hy3 Preview
-  en_US: Tencent/Hy3 Preview
+  zh_Hans: Hy3-Preview
+  en_US: Hy3-Preview
 model_type: llm
 features:
 - tool-call

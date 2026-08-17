@@ -1,7 +1,7 @@
 model: moonshotai/kimi-k2.6
 label:
-  zh_Hans: Moonshotai/Kimi-K2.6
-  en_US: Moonshotai/Kimi-K2.6
+  zh_Hans: Kimi-K2.6
+  en_US: Kimi-K2.6
 model_type: llm
 features:
 - tool-call

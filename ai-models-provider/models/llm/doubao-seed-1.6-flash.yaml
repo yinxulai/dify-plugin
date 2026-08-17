@@ -1,7 +1,7 @@
 model: doubao-seed-1.6-flash
 label:
-  zh_Hans: Doubao-Seed 1.6 Flash
-  en_US: Doubao-Seed 1.6 Flash
+  zh_Hans: Doubao-Seed-1.6-Flash
+  en_US: Doubao-Seed-1.6-Flash
 model_type: llm
 features:
 - tool-call

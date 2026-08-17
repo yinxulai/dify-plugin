@@ -1,7 +1,7 @@
 model: x-ai/grok-code-fast-1
 label:
-  zh_Hans: x-AI/Grok-Code-Fast 1
-  en_US: x-AI/Grok-Code-Fast 1
+  zh_Hans: Grok-code-Fast-1
+  en_US: Grok-code-Fast-1
 model_type: llm
 features:
 - tool-call

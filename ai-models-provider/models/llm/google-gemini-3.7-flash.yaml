@@ -1,7 +1,7 @@
 model: google/gemini-3.7-flash
 label:
-  zh_Hans: Gemini 3.7 Flash
-  en_US: Gemini 3.7 Flash
+  zh_Hans: Gemini-3.7-Flash
+  en_US: Gemini-3.7-Flash
 model_type: llm
 features:
 - tool-call

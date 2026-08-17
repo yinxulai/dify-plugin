@@ -1,7 +1,7 @@
 model: qwen-vl-max-2025-01-25
 label:
-  zh_Hans: Qwen VL-MAX-2025-01-25
-  en_US: Qwen VL-MAX-2025-01-25
+  zh_Hans: Qwen-VL-MAX-2025-01-25
+  en_US: Qwen-VL-MAX-2025-01-25
 model_type: llm
 features:
 - tool-call

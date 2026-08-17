@@ -1,7 +1,7 @@
 model: openai/gpt-5-nano
 label:
-  zh_Hans: OpenAI/GPT-5 Nano
-  en_US: OpenAI/GPT-5 Nano
+  zh_Hans: GPT-5-Nano
+  en_US: GPT-5-Nano
 model_type: llm
 features:
 - tool-call

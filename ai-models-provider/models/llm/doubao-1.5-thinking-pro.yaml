@@ -1,7 +1,7 @@
 model: doubao-1.5-thinking-pro
 label:
-  zh_Hans: Doubao 1.5 Thinking Pro
-  en_US: Doubao 1.5 Thinking Pro
+  zh_Hans: Doubao-1.5-Thinking-Pro
+  en_US: Doubao-1.5-Thinking-Pro
 model_type: llm
 features:
 - tool-call

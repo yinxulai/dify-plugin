@@ -1,7 +1,7 @@
 model: deepseek/deepseek-v3.1-terminus-thinking
 label:
-  zh_Hans: DeepSeek/DeepSeek-V3.1-Terminus-Thinking
-  en_US: DeepSeek/DeepSeek-V3.1-Terminus-Thinking
+  zh_Hans: DeepSeek-V3.1-Terminus-Thinking
+  en_US: DeepSeek-V3.1-Terminus-Thinking
 model_type: llm
 features:
 - tool-call

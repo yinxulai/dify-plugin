@@ -1,7 +1,7 @@
 model: claude-4.5-opus
 label:
-  zh_Hans: Claude 4.5 Opus
-  en_US: Claude 4.5 Opus
+  zh_Hans: Claude-4.5-Opus
+  en_US: Claude-4.5-Opus
 model_type: llm
 features:
 - tool-call

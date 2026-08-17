@@ -1,7 +1,7 @@
 model: qwen3-235b-a22b
 label:
-  zh_Hans: Qwen 3 235B A22B
-  en_US: Qwen 3 235B A22B
+  zh_Hans: Qwen-3-235B-A22B
+  en_US: Qwen-3-235B-A22B
 model_type: llm
 features:
 - tool-call

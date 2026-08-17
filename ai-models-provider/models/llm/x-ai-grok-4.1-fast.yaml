@@ -1,7 +1,7 @@
 model: x-ai/grok-4.1-fast
 label:
-  zh_Hans: x-AI/Grok-4.1-Fast
-  en_US: x-AI/Grok-4.1-Fast
+  zh_Hans: Grok-4.1-Fast
+  en_US: Grok-4.1-Fast
 model_type: llm
 features:
 - tool-call
