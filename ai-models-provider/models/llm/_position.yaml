@@ -44,7 +44,6 @@
 - qwen-qwen3.6-27b
 - deepseek-deepseek-v4-flash-202605
 - nvidia-nemotron-3-ultra-550b-a55b0-free
-- claude-4.5-opus
 - z-ai-glm-5.1
 - anthropic-claude-4.7-opus
 - moonshotai-kimi-k2.6
@@ -110,6 +109,7 @@
 - bytedance-doubao-seed-2-1-lite
 - deepseek-deepseek-v4.1-flash-1017
 - minimax-minimax-m3.1-flash
+- claude-4.5-opus
 - claude-4.6-opus
 - claude-4.6-sonnet
 - claude-4.5-sonnet
