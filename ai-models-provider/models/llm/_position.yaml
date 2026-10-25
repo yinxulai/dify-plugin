@@ -12,6 +12,7 @@
 - deepseek-deepseek-v3.1-terminus
 - moonshotai-kimi-k2-thinking
 - meituan-longcat-flash-lite
+- claude-4.5-opus
 - deepseek-r1-0528
 - qwen3-235b-a22b
 - x-ai-grok-4-fast-reasoning
@@ -109,7 +110,6 @@
 - bytedance-doubao-seed-2-1-lite
 - deepseek-deepseek-v4.1-flash-1017
 - minimax-minimax-m3.1-flash
-- claude-4.5-opus
 - claude-4.6-opus
 - claude-4.6-sonnet
 - claude-4.5-sonnet
