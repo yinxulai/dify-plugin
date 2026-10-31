@@ -6,7 +6,6 @@
 - qwen3-next-80b-a3b-instruct
 - qwen3-235b-a22b-thinking-2507
 - arcee-ai-trinity-mini
-- openai-gpt-5.4-pro
 - z-ai-glm-4.6
 - moonshotai-kimi-k2-thinking
 - meituan-longcat-flash-lite
@@ -99,6 +98,7 @@
 - moonshotai-kimi-k3.1-pro
 - moonshotai-kimi-k3.1-pro-highspeed
 - openai-gpt-6.1-terra
+- openai-gpt-5.4-pro
 - claude-4.5-opus
 - claude-4.6-opus
 - claude-4.6-sonnet
